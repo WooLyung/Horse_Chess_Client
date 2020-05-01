@@ -9,6 +9,7 @@ public class LoginManager : MonoBehaviour
 {
     float term = 0;
 
+    private bool isKeepLogin = false;
     private SocketIOComponent socket;
 
     public LoginSceneManager loginSceneManager;
@@ -19,12 +20,38 @@ public class LoginManager : MonoBehaviour
     public InputField register_pwd2;
     public InputField register_nick;
 
+    private bool KeepLogin
+    {
+        get
+        {
+            if (!PlayerPrefs.HasKey("KeepLogin"))
+                PlayerPrefs.SetInt("KeepLogin", 0);
+            return PlayerPrefs.GetInt("KeepLogin") == 1;
+        }
+
+        set
+        {
+            PlayerPrefs.SetInt("KeepLogin", value ? 1 : 0);
+        }
+    }
+
     private void Start()
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
         socket.On("registerResponse", registerResponse);
         socket.On("loginResponse", loginResponse);
+
+        // 로그인 유지
+        if (KeepLogin)
+        {
+            isKeepLogin = true;
+            StartCoroutine("AutoLogin");
+        }
+        else
+        {
+            loginSceneManager.LoginAppear();
+        }
     }
 
     private void Update()
@@ -116,14 +143,22 @@ public class LoginManager : MonoBehaviour
         // 로그인 성공
         if (success)
         {
-            loginSceneManager.Alert("로그인 성공!");
-            return;
+            PlayerPrefs.SetString("KeepLogin_ID", login_id.text);
+            PlayerPrefs.SetString("KeepLogin_pwd", login_pwd.text);
+            loginSceneManager.ChangeScene();
         }
         else
         {
-            String err = data.GetField("err").ToString();
-            loginSceneManager.Alert(err.Substring(1, err.Length - 2));
-            return;
+            if (isKeepLogin)
+            {
+                isKeepLogin = false;
+                loginSceneManager.LoginAppear();
+            }
+            else
+            {
+                String err = data.GetField("err").ToString();
+                loginSceneManager.Alert(err.Substring(1, err.Length - 2));
+            }
         }
     }
 
@@ -135,14 +170,28 @@ public class LoginManager : MonoBehaviour
         // 회원가입 성공
         if (success)
         {
+            PlayerPrefs.SetString("KeepLogin_ID", register_id.text);
+            PlayerPrefs.SetString("KeepLogin_pwd", register_pwd.text);
             loginSceneManager.Alert("회원가입 성공!");
-            return;
+            loginSceneManager.ChangeScene();
         }
         else
         {
             String err = data.GetField("err").ToString();
             loginSceneManager.Alert(err.Substring(1, err.Length - 2));
-            return;
         }
+    }
+
+    IEnumerator AutoLogin()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        String id = PlayerPrefs.GetString("KeepLogin_ID");
+        String pwd = PlayerPrefs.GetString("KeepLogin_pwd");
+        String json = String.Format("\"username\":\"{0}\", \"password\":\"{1}\"", id, pwd);
+
+        JSONObject data = new JSONObject("{" + json + "}");
+
+        socket.Emit("loginRequest", data);
     }
 }

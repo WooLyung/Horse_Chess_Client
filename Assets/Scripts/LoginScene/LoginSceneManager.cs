@@ -35,6 +35,16 @@ public class LoginSceneManager : MonoBehaviour
         }
     }
 
+    public void ChangeScene()
+    {
+        State = 3;
+    }
+
+    public void LoginAppear()
+    {
+        State = 0;
+    }
+
     public void ToLogin()
     {
         if (Text == false && State == 1)
