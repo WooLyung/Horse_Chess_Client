@@ -379,7 +379,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f154740873964408fa9dd81067d633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginSceneManager: {fileID: 0}
+  loginSceneManager: {fileID: 375288284}
+  login_id: {fileID: 1877587668}
+  login_pwd: {fileID: 601687315}
+  register_id: {fileID: 1834453508}
+  register_pwd: {fileID: 1492960975}
+  register_pwd2: {fileID: 1987439666}
+  register_nick: {fileID: 1396022684}
 --- !u!1 &144190148
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +639,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 249455216}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 99212474}
+        m_MethodName: Login
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &249455216
@@ -881,22 +898,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &370919102 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8,
-    type: 2}
-  m_PrefabInternal: {fileID: 1854229627}
---- !u!114 &370919103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 370919102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 602601fd577701d48964445906d997a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &375288282
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +939,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 925320489}
-  loginManager: {fileID: 0}
+  loginManager: {fileID: 99212474}
+  alertText: {fileID: 1678509987}
 --- !u!1 &387462713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1624,46 +1626,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 618124211}
   m_CullTransparentMesh: 0
---- !u!1 &661391602
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 661391604}
-  - component: {fileID: 661391603}
-  m_Layer: 0
-  m_Name: ConnectingTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &661391603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 661391602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9484cf1f87e894773ab4d8564652833d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &661391604
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 661391602}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &799748475
 GameObject:
   m_ObjectHideFlags: 0
@@ -2270,7 +2232,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1039672146}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 99212474}
+        m_MethodName: Register
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "\uC0CC\uC988!!!"
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1039672146
@@ -3530,8 +3503,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 200}
+  m_AnchoredPosition: {x: 0, y: -60}
+  m_SizeDelta: {x: 600, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1678509987
 MonoBehaviour:
@@ -3553,7 +3526,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 49dad54199eefdc4aba96ffe08d36993, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
@@ -3565,7 +3538,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uC774\uC5E0 \uADF8\uB8E8\uD2B8"
+  m_Text: 
 --- !u!222 &1678509988
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4243,6 +4216,22 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1854229628 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1854229627}
+--- !u!114 &1854229629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1854229628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602601fd577701d48964445906d997a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1877587666
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoginSceneManager : MonoBehaviour
 {
     public Animator animator;
     public LoginManager loginManager;
+    public Text alertText;
 
     private int State
     {
@@ -47,5 +49,18 @@ public class LoginSceneManager : MonoBehaviour
         {
             State = 1;
         }
+    }
+
+    public void Alert(string message)
+    {
+        Text = true;
+        alertText.text = message;
+        StartCoroutine("CloseAlert");
+    }
+
+    IEnumerator CloseAlert()
+    {
+        yield return new WaitForSeconds(1.2f);
+        Text = false;
     }
 }
