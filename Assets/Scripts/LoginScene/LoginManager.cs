@@ -151,7 +151,6 @@ public class LoginManager : MonoBehaviour
         {
             if (isKeepLogin)
             {
-                isKeepLogin = false;
                 loginSceneManager.LoginAppear();
             }
             else
@@ -159,6 +158,8 @@ public class LoginManager : MonoBehaviour
                 String err = data.GetField("err").ToString();
                 loginSceneManager.Alert(err.Substring(1, err.Length - 2));
             }
+
+            isKeepLogin = false;
         }
     }
 

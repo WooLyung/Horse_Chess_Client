@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LoginSceneManager : MonoBehaviour
 {
@@ -37,7 +38,8 @@ public class LoginSceneManager : MonoBehaviour
 
     public void ChangeScene()
     {
-        State = 3;
+        State = 2;
+        StartCoroutine("ToMain");
     }
 
     public void LoginAppear()
@@ -72,5 +74,23 @@ public class LoginSceneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.2f);
         Text = false;
+    }
+
+    IEnumerator ToMain()
+    {
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("ChangeScene_KeepLogin")
+            && !animator.GetCurrentAnimatorStateInfo(0).IsName("ChangeScene_Login")
+            && !animator.GetCurrentAnimatorStateInfo(0).IsName("ChangeScene_Register"))
+        {
+            Debug.Log("!!");
+            yield return null;
+        }
+
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+        {
+            yield return null;
+        }
+
+        SceneManager.LoadScene(2);
     }
 }
