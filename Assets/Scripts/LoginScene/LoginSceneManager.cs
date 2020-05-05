@@ -82,7 +82,6 @@ public class LoginSceneManager : MonoBehaviour
             && !animator.GetCurrentAnimatorStateInfo(0).IsName("ChangeScene_Login")
             && !animator.GetCurrentAnimatorStateInfo(0).IsName("ChangeScene_Register"))
         {
-            Debug.Log("!!");
             yield return null;
         }
 
