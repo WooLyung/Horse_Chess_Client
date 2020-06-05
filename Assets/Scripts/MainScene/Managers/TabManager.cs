@@ -64,6 +64,18 @@ public class TabManager : MonoBehaviour
         nowTab = i;
     }
 
+    public void NextTab()
+    {
+        nowTab++;
+        if (nowTab > 2) nowTab = 2;
+    }
+
+    public void PreTab()
+    {
+        nowTab--;
+        if (nowTab < 0) nowTab = 0;
+    }
+
     private void MoveLine()
     {
         selectLine.position = new Vector3(
@@ -160,15 +172,14 @@ public class TabManager : MonoBehaviour
                 if (!isBigger0_2)
                 {
                     isBigger0_2 = true;
-                    startMousePos = Input.mousePosition;
                 }
-                float distance = Input.mousePosition.x - startMousePos.x;
-                float x = startTabPos.x + distance;
-                if (x >= screenSize.x * 1.5f) x = screenSize.x * 1.5f;
-                if (x <= screenSize.x * -0.5f) x = screenSize.x * -0.5f;
-
-                tabs.position = new Vector3(x, startTabPos.y, 0);
             }
+
+            float distance = Input.mousePosition.x - startMousePos.x;
+            float x = startTabPos.x + distance;
+            if (x >= screenSize.x * 1.5f) x = screenSize.x * 1.5f;
+            if (x <= screenSize.x * -0.5f) x = screenSize.x * -0.5f;
+            tabs.position = new Vector3(x, startTabPos.y, 0);
         }
         else if (Input.GetMouseButtonUp(0))
         {
