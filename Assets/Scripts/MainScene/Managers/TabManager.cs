@@ -6,12 +6,15 @@ using UnityEngine.UI;
 
 public class TabManager : MonoBehaviour
 {
+    #region variables
     public RectTransform tabs;
     public RectTransform selectLine;
     public RectTransform settingPosT;
     public Button info;
     public Button game;
     public Button setting;
+
+    private bool isSetting = false;
 
     private Vector3 screenSize;
     private float dragTime = 0;
@@ -25,7 +28,8 @@ public class TabManager : MonoBehaviour
     private float from = 0;
 
     private float settingPos = 0;
-
+    #endregion
+    #region getter/setter
     private int nowTab
     {
         get
@@ -41,7 +45,9 @@ public class TabManager : MonoBehaviour
             moveTime = 0;
         }
     }
+    #endregion
 
+    #region life cycle
     private void Awake()
     {
         screenSize = new Vector2(Screen.width, Screen.height);
@@ -57,8 +63,8 @@ public class TabManager : MonoBehaviour
         ChangeButtonColor();
         MoveLine();
     }
-
-
+    #endregion
+    #region change tabs
     public void ChangeTab(int i)
     {
         nowTab = i;
@@ -75,7 +81,8 @@ public class TabManager : MonoBehaviour
         nowTab--;
         if (nowTab < 0) nowTab = 0;
     }
-
+    #endregion
+    #region anims
     private void MoveLine()
     {
         selectLine.position = new Vector3(
@@ -154,9 +161,16 @@ public class TabManager : MonoBehaviour
             tabs.position = new Vector3(from + (to - from) * Mathf.Pow(moveTime, 2), screenSize.y * 0.5f, 0);
         }
     }
-
+    #endregion
+    #region input
     private void Slide()
     {
+        if (isSetting)
+        {
+            dragTime = 0;
+            return;
+        }
+
         if (Input.GetMouseButton(0))
         {
             if (dragTime == 0)
@@ -210,4 +224,11 @@ public class TabManager : MonoBehaviour
                 nowTab = 1;
         }
     }
+
+    public void SetIsSetting(bool flag)
+    {
+        isSetting = flag;
+        Debug.Log(isSetting);
+    }
+    #endregion
 }
