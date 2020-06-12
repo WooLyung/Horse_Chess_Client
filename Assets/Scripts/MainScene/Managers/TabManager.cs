@@ -228,7 +228,6 @@ public class TabManager : MonoBehaviour
     public void SetIsSetting(bool flag)
     {
         isSetting = flag;
-        Debug.Log(isSetting);
     }
     #endregion
 }
