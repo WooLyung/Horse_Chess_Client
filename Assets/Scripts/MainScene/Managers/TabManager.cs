@@ -13,6 +13,8 @@ public class TabManager : MonoBehaviour
     public Button info;
     public Button game;
     public Button setting;
+    public Animator nextAnim;
+    public Animator preAnim;
 
     private bool isSetting = false;
 
@@ -72,14 +74,14 @@ public class TabManager : MonoBehaviour
 
     public void NextTab()
     {
-        nowTab++;
-        if (nowTab > 2) nowTab = 2;
+        nowTab--;
+        if (nowTab < 0) nowTab = 0;
     }
 
     public void PreTab()
     {
-        nowTab--;
-        if (nowTab < 0) nowTab = 0;
+        nowTab++;
+        if (nowTab > 2) nowTab = 2;
     }
     #endregion
     #region anims
@@ -156,7 +158,9 @@ public class TabManager : MonoBehaviour
             moveTime += Time.deltaTime * 5f;
 
             if (moveTime >= 1)
+            {
                 moveTime = 1;
+            }
 
             tabs.position = new Vector3(from + (to - from) * Mathf.Pow(moveTime, 2), screenSize.y * 0.5f, 0);
         }
@@ -183,10 +187,9 @@ public class TabManager : MonoBehaviour
 
             if (dragTime >= 0.2f)
             {
-                if (!isBigger0_2)
-                {
-                    isBigger0_2 = true;
-                }
+                isBigger0_2 = true;
+                nextAnim.SetBool("isOn", false);
+                preAnim.SetBool("isOn", false);
             }
 
             float distance = Input.mousePosition.x - startMousePos.x;
@@ -197,6 +200,9 @@ public class TabManager : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            nextAnim.SetBool("isOn", true);
+            preAnim.SetBool("isOn", true);
+
             SlideUp();
             dragTime = 0;
         }

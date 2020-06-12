@@ -1519,6 +1519,7 @@ GameObject:
   - component: {fileID: 485423491}
   - component: {fileID: 485423490}
   - component: {fileID: 485423489}
+  - component: {fileID: 485423492}
   m_Layer: 5
   m_Name: Pre
   m_TagString: Untagged
@@ -1630,6 +1631,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 485423487}
   m_CullTransparentMesh: 0
+--- !u!95 &485423492
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 485423487}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f964d1b5defbceb409839aeae76ff655, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &493017379
 GameObject:
   m_ObjectHideFlags: 0
@@ -4866,6 +4885,7 @@ GameObject:
   - component: {fileID: 1369043388}
   - component: {fileID: 1369043387}
   - component: {fileID: 1369043386}
+  - component: {fileID: 1369043389}
   m_Layer: 5
   m_Name: Next
   m_TagString: Untagged
@@ -4977,6 +4997,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1369043384}
   m_CullTransparentMesh: 0
+--- !u!95 &1369043389
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1369043384}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f964d1b5defbceb409839aeae76ff655, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1399875652
 GameObject:
   m_ObjectHideFlags: 0
@@ -6079,6 +6117,8 @@ MonoBehaviour:
   info: {fileID: 1949480250}
   game: {fileID: 83872323}
   setting: {fileID: 1895406705}
+  nextAnim: {fileID: 1369043389}
+  preAnim: {fileID: 485423492}
 --- !u!1 &2019288455
 GameObject:
   m_ObjectHideFlags: 0
