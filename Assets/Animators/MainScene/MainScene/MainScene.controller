@@ -228,7 +228,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SceneAppear
-  m_Speed: 1
+  m_Speed: 0.7
   m_CycleOffset: 1
   m_Transitions:
   - {fileID: 1101441366488363636}
@@ -305,7 +305,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SceneDisappear
-  m_Speed: -1
+  m_Speed: -0.7
   m_CycleOffset: 1
   m_Transitions: []
   m_StateMachineBehaviours: []

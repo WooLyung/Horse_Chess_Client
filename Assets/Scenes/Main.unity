@@ -5487,6 +5487,8 @@ MonoBehaviour:
   text2: {fileID: 71260415}
   loading1: {fileID: 1914861172}
   loading2: {fileID: 1859909762}
+  canvas: {fileID: 353076216}
+  message: {fileID: 1239106667}
   button: {fileID: 2083330366}
 --- !u!1 &1321451185
 GameObject:
