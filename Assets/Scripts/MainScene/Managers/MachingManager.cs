@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MachingManager : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class MachingManager : MonoBehaviour
         }
         else if (State == STATE.MACHING)
         {
-            Dismaching();
+            MachingSuccess();
         }
     }
 
@@ -99,6 +100,6 @@ public class MachingManager : MonoBehaviour
     IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(1f);
-        Debug.Log("씬 전환");
+        SceneManager.LoadScene(3);
     }
 }
