@@ -149,12 +149,11 @@ public class LoginManager : MonoBehaviour
 
             JSONObject playerData = data.GetField("data").GetField("userData");
             string nickname = playerData.GetField("nickname").ToString();
+            nickname = nickname.Substring(1, nickname.Length - 2);
             int rate = int.Parse(playerData.GetField("rate").ToString());
             int game = int.Parse(playerData.GetField("numOfPlayedGame").ToString());
             int winGame = int.Parse(playerData.GetField("numOfWonGame").ToString());
             PlayerDataUpdate(nickname, rate, game, winGame);
-
-            Debug.Log(data);
         }
         else
         {
@@ -187,6 +186,7 @@ public class LoginManager : MonoBehaviour
 
             JSONObject playerData = data.GetField("data").GetField("userData");
             string nickname = playerData.GetField("nickname").ToString();
+            nickname = nickname.Substring(1, nickname.Length - 2);
             int rate = int.Parse(playerData.GetField("rate").ToString());
             int game = int.Parse(playerData.GetField("numOfPlayedGame").ToString());
             int winGame = int.Parse(playerData.GetField("numOfWonGame").ToString());

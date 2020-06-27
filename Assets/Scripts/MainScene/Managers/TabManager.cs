@@ -22,7 +22,6 @@ public class TabManager : MonoBehaviour
     private float dragTime = 0;
     private float moveTime = 0;
     private int nowTab_ = 1;
-    private bool isBigger0_2 = false;
 
     private Vector2 startMousePos = new Vector2();
     private Vector2 startTabPos = new Vector2();
@@ -181,13 +180,11 @@ public class TabManager : MonoBehaviour
             {
                 startMousePos = Input.mousePosition;
                 startTabPos = tabs.position;
-                isBigger0_2 = false;
             }
             dragTime += Time.deltaTime;
 
             if (dragTime >= 0.2f)
             {
-                isBigger0_2 = true;
                 nextAnim.SetBool("isOn", false);
                 preAnim.SetBool("isOn", false);
             }

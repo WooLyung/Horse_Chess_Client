@@ -215,7 +215,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD29C\uD1A0\uB9AC\uC5BC"
+  m_Text: "\uB85C\uADF8\uC544\uC6C3"
 --- !u!222 &25855249
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1096,6 +1096,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 353076216}
+  socket: {fileID: 0}
+  nickname: {fileID: 240286583}
+  ranking: {fileID: 937906287}
+  winRate: {fileID: 2134378069}
+  record: {fileID: 464439120}
+  score: {fileID: 966121951}
+  nickname2: {fileID: 1074111735}
+  ranking2: {fileID: 324837010}
+  score2: {fileID: 1308364245}
 --- !u!1 &324837008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,7 +2339,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 475350825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 302583752}
+        m_MethodName: Logout
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &475350825

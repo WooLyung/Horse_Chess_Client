@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using SocketIO;
 
 public class InfoManager : MonoBehaviour
 {
     public Animator animator;
+    public SocketIOComponent socket;
 
     public Text nickname;
     public Text ranking;
@@ -17,6 +19,11 @@ public class InfoManager : MonoBehaviour
     public Text nickname2;
     public Text ranking2;
     public Text score2;
+
+    private void Awake()
+    {
+        socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+    }
 
     private void Start()
     {
@@ -42,9 +49,23 @@ public class InfoManager : MonoBehaviour
         StartCoroutine("ChangeTutorial");
     }
 
+    public void Logout()
+    {
+        animator.SetInteger("State", 1);
+        socket.Emit("logoutRequest");
+        PlayerPrefs.SetInt("KeepLogin", 0);
+        StartCoroutine("ChangeTitle");
+    }
+
     IEnumerator ChangeTutorial()
     {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(4);
+    }
+
+    IEnumerator ChangeTitle()
+    {
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(0);
     }
 }
