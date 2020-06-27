@@ -147,6 +147,13 @@ public class LoginManager : MonoBehaviour
             PlayerPrefs.SetString("KeepLogin_pwd", login_pwd.text);
             loginSceneManager.ChangeScene();
 
+            JSONObject playerData = data.GetField("data").GetField("userData");
+            string nickname = playerData.GetField("nickname").ToString();
+            int rate = int.Parse(playerData.GetField("rate").ToString());
+            int game = int.Parse(playerData.GetField("numOfPlayedGame").ToString());
+            int winGame = int.Parse(playerData.GetField("numOfWonGame").ToString());
+            PlayerDataUpdate(nickname, rate, game, winGame);
+
             Debug.Log(data);
         }
         else
@@ -178,13 +185,27 @@ public class LoginManager : MonoBehaviour
             loginSceneManager.Alert("회원가입 성공!");
             loginSceneManager.ChangeScene();
 
-            Debug.Log(data);
+            JSONObject playerData = data.GetField("data").GetField("userData");
+            string nickname = playerData.GetField("nickname").ToString();
+            int rate = int.Parse(playerData.GetField("rate").ToString());
+            int game = int.Parse(playerData.GetField("numOfPlayedGame").ToString());
+            int winGame = int.Parse(playerData.GetField("numOfWonGame").ToString());
+            PlayerDataUpdate(nickname, rate, game, winGame);
         }
         else
         {
             String err = data.GetField("err").ToString();
             loginSceneManager.Alert(err.Substring(1, err.Length - 2));
         }
+    }
+
+    private void PlayerDataUpdate(string nickname, int rate, int game, int winGame)
+    {
+        PlayerData playerData = PlayerData.Instance;
+        playerData.Name = nickname;
+        playerData.Rate = rate;
+        playerData.Game = game;
+        playerData.WinGame = winGame;
     }
 
     IEnumerator AutoLogin()
