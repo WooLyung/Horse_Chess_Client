@@ -146,6 +146,8 @@ public class LoginManager : MonoBehaviour
             PlayerPrefs.SetString("KeepLogin_ID", login_id.text);
             PlayerPrefs.SetString("KeepLogin_pwd", login_pwd.text);
             loginSceneManager.ChangeScene();
+
+            Debug.Log(data);
         }
         else
         {
@@ -175,6 +177,8 @@ public class LoginManager : MonoBehaviour
             PlayerPrefs.SetString("KeepLogin_pwd", register_pwd.text);
             loginSceneManager.Alert("회원가입 성공!");
             loginSceneManager.ChangeScene();
+
+            Debug.Log(data);
         }
         else
         {
