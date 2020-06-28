@@ -11,6 +11,7 @@ public class PlayerData : MonoBehaviour
     private int game_ = 0;
     private int winGame_ = 0;
     private int ranking_ = 0;
+    private bool isFirst_ = false;
 
     private void Awake()
     {
@@ -22,6 +23,19 @@ public class PlayerData : MonoBehaviour
         get
         {
             return instance_;
+        }
+    }
+
+    public bool IsFirst
+    {
+        get
+        {
+            return isFirst_;
+        }
+
+        set
+        {
+            isFirst_ = value;
         }
     }
 

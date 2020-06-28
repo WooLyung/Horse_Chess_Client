@@ -191,6 +191,8 @@ public class LoginManager : MonoBehaviour
             int game = int.Parse(playerData.GetField("numOfPlayedGame").ToString());
             int winGame = int.Parse(playerData.GetField("numOfWonGame").ToString());
             PlayerDataUpdate(nickname, rate, game, winGame);
+
+            PlayerData.Instance.IsFirst = true;
         }
         else
         {

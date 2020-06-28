@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using SocketIO;
+using System;
 
 public class MachingManager : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class MachingManager : MonoBehaviour
     public Text button;
 
     private STATE state_;
+    private SocketIOComponent socket;
 
     public STATE State
     {
@@ -29,15 +32,23 @@ public class MachingManager : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+
+        socket.On("machingResponse", machingResponse);
+    }
+
     public void MachingButton()
     {
         if (State == STATE.NONE)
         {
             Maching();
+            socket.Emit("maching");
         }
         else if (State == STATE.MACHING)
         {
-            MachingSuccess();
+            Dismaching();
         }
     }
 
@@ -63,7 +74,7 @@ public class MachingManager : MonoBehaviour
         button.text = "게임 시작";
     }
 
-    private void MachingFail()
+    private void MachingFail(string err)
     {
         state_ = STATE.NONE;
 
@@ -72,7 +83,7 @@ public class MachingManager : MonoBehaviour
         loading1.SetBool("isLoading", false);
         loading2.SetBool("isLoading", false);
         canvas.SetBool("Text", true);
-        message.text = "매칭에 실패했습니다";
+        message.text = err;
         button.text = "게임 시작";
 
         StartCoroutine("MachingFailEnd");
@@ -101,5 +112,23 @@ public class MachingManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(3);
+    }
+
+    private void machingResponse(SocketIOEvent obj)
+    {
+        JSONObject data = obj.data;
+        bool success = Boolean.Parse(data.GetField("success").ToString());
+
+        // 매칭 성공
+        if (success)
+        {
+            Debug.Log(data);
+            MachingSuccess();
+        }
+        else
+        {
+            String err = data.GetField("err").ToString();
+            MachingFail(err.Substring(1, err.Length - 2));
+        }
     }
 }

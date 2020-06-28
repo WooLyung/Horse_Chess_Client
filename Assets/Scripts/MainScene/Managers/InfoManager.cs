@@ -40,6 +40,14 @@ public class InfoManager : MonoBehaviour
                 winRate.text = "-%";
             else
                 winRate.text = playerData.WinGame * 100 / playerData.Game + "%";
+
+            // -----
+            
+            if (playerData.IsFirst)
+            {
+                playerData.IsFirst = false;
+                StartCoroutine("TutorialFirst");
+            }
         }
     }
 
@@ -67,5 +75,11 @@ public class InfoManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(0);
+    }
+
+    IEnumerator TutorialFirst()
+    {
+        yield return new WaitForSeconds(1);
+        Tutorial();
     }
 }
