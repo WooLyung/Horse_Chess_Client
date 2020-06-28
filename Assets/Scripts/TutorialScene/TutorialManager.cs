@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class TutorialManager : MonoBehaviour
         NONE, WHITE, WINE, CANT, CAN
     }
 
+    public Animator sceneAnim;
+    public Animator objectAnim;
     public Animator textAnim;
     public Animator screenAnim;
     public Text text;
@@ -68,7 +71,7 @@ public class TutorialManager : MonoBehaviour
 		if (isAppearTime)
         {
             textTime += Time.deltaTime;
-            if (textTime >= 3)
+            if (textTime >= 2.7f)
             {
                 textTime = 0;
                 isAppearTime = false;
@@ -121,8 +124,67 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private void DestroyCanMoveTile()
+    {
+        selectPiece = -1;
+        foreach (var value in canMoveTiles)
+        {
+            GameObject.Destroy(value);
+        }
+        for (int x = 1; x <= 8; x++)
+        {
+            for (int y = 1; y <= 8; y++)
+            {
+                if (tiles[x, y] == TILE.CAN)
+                    tiles[x, y] = TILE.NONE;
+            }
+        }
+    }
+
+    private void OutClick()
+    {
+        if (selectPiece != -1) // 선택된 기물 있음
+        {
+            DestroyCanMoveTile();
+        }
+    }
+
     private void TileClickGame(int x, int y)
     {
+        if (selectPiece != -1) // 선택된 기물 있음
+        {
+            if (tiles[x, y] == TILE.WINE
+                || tiles[x, y] == TILE.NONE) // 상대편 혹은 빈 칸을 선택
+            {
+                DestroyCanMoveTile();
+            }
+            else if (tiles[x, y] == TILE.WHITE)
+            {
+                if (playerP[selectPiece].x == x && playerP[selectPiece].y == y)
+                {
+                    DestroyCanMoveTile();
+                    return;
+                }
+                DestroyCanMoveTile();
+            }
+            else if (tiles[x, y] == TILE.CAN)
+            {
+                Vector2Int pos = new Vector2Int((int)playerPO[selectPiece].transform.localPosition.x, (int)playerPO[selectPiece].transform.localPosition.y);
+
+                GameObject newCantMove = GameObject.Instantiate(cantMove, cantMoveTile.transform);
+                newCantMove.transform.localPosition = new Vector3(pos.x, pos.y);
+                cantMoveTiles.Add(newCantMove);
+                tiles[pos.x, pos.y] = TILE.CANT;
+
+                playerPO[selectPiece].transform.localPosition = new Vector3(x, y);
+
+                DestroyCanMoveTile();
+                step = 4;
+
+                StartCoroutine("FinalMessage");
+            }
+        }
+
         if (selectPiece == -1) // 선택된 기물 없음
         {
             if (tiles[x, y] == TILE.WHITE) // 선택한 타일이 플레이어가 있는 타일
@@ -205,7 +267,7 @@ public class TutorialManager : MonoBehaviour
             }
             else // 체커판 안을 누르지 않음
             {
-
+                OutClick();
             }
         }
     }
@@ -214,14 +276,14 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         ShowText("스테일메이트에 오신것을 환영합니다!");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("지금부터 스테일메이트의 튜토리얼을 시작하겠습니다");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("스테일메이트는 상대방의 경로를 막아 승리하는 보드게임입니다");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("기물이 한번이라도 지나간 타일은 지나갈 수 없습니다");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("경기를 시작하기 전 원하는 위치에 4개의 기물을 배치하세요");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("지금부터 스테일메이트의 튜토리얼을 시작하겠습니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("스테일메이트는 상대방의 경로를 막아 승리하는 보드게임입니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("기물이 한번이라도 지나간 타일은 지나갈 수 없습니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("경기를 시작하기 전 원하는 위치에 4개의 기물을 배치하세요");
         step = 1;
     }
 
@@ -229,14 +291,29 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         ShowText("두 상대가 배치를 마치면 게임이 시작됩니다");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("게임은 두 플레이어 순서대로 하나의 기물을 옮기며 진행됩니다");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("기물의 이동 방법은 체스의 나이트와 동일합니다");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("추가로 이동 위치에 자신의 기물이 있다면 건너뛸 수 있습니다");
-        //yield return new WaitForSeconds(3.5f);
-        //ShowText("원하는 기물을 원하는 위치로 옮기세요");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("게임은 두 플레이어 순서대로 하나의 기물을 옮기며 진행됩니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("기물의 이동 방법은 체스의 나이트와 동일합니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("추가로 이동 위치에 자신의 기물이 있다면 건너뛸 수 있습니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("원하는 기물을 원하는 위치로 옮기세요");
         step = 3;
+    }
+
+    IEnumerator FinalMessage()
+    {
+        yield return new WaitForSeconds(1.5f);
+        ShowText("기물이 이동한 자리는 더 이상 사용할 수 없습니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("두 플레이어가 게임을 진행하며 상대방의 이동을 완전히 막으면 승리합니다");
+        yield return new WaitForSeconds(3.5f);
+        ShowText("이제 실제 게임에서 다른 플레이어들과 겨뤄보세요!");
+        yield return new WaitForSeconds(3.5f);
+        sceneAnim.SetInteger("state", 1);
+        objectAnim.SetInteger("state", 1);
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(2);
     }
 }

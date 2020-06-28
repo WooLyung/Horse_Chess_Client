@@ -5719,6 +5719,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9e9c11cebc8214791c3aaf0ebfcb4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneAnim: {fileID: 1575485719}
+  objectAnim: {fileID: 1023465359}
   textAnim: {fileID: 392014029}
   screenAnim: {fileID: 1152510244}
   text: {fileID: 392014032}
@@ -5734,7 +5736,7 @@ MonoBehaviour:
   - {fileID: 113934481}
   canMove: {fileID: 1214531455661000, guid: d0f9da16846d3e048ab384fa44f8cbe4, type: 2}
   canMoveTile: {fileID: 922790401}
-  cantMove: {fileID: 0}
+  cantMove: {fileID: 1442253591949160, guid: fb7bbf33d0d6f544fb93ca20fff70c16, type: 2}
   cantMoveTile: {fileID: 215161170}
 --- !u!1001 &1755253889
 Prefab:
