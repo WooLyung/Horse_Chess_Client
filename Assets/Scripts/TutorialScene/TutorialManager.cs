@@ -7,7 +7,7 @@ public class TutorialManager : MonoBehaviour
 {
     private enum TILE
     {
-        NONE, WHITE, WINE, CANT
+        NONE, WHITE, WINE, CANT, CAN
     }
 
     public Animator textAnim;
@@ -16,7 +16,12 @@ public class TutorialManager : MonoBehaviour
 
     public GameObject[] playerPO = new GameObject[4];
     public GameObject[] opponentPO = new GameObject[4];
+    public GameObject canMove;
+    public GameObject canMoveTile;
+    public GameObject cantMove;
+    public GameObject cantMoveTile;
 
+    private int selectPiece = -1;
     private int clearedPiece = 0;
     private int step = 0;
     private float textTime = 0;
@@ -24,8 +29,12 @@ public class TutorialManager : MonoBehaviour
 
     private Vector2Int[] playerP = new Vector2Int[4];
     private Vector2Int[] opponentP = new Vector2Int[4];
+    private List<GameObject> canMoveTiles = new List<GameObject>();
+    private List<GameObject> cantMoveTiles = new List<GameObject>();
 
     private TILE[, ] tiles = new TILE[9, 9];
+    private Vector2Int[] moveDir = { new Vector2Int(1, 2), new Vector2Int(1, -2), new Vector2Int(-1, 2), new Vector2Int(-1, -2),
+        new Vector2Int(2, 1),new Vector2Int(2, -1), new Vector2Int(-2, 1), new Vector2Int(-2, -1) };
 
     private void Start ()
     {
@@ -112,20 +121,92 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private void TileClickGame(int x, int y)
+    {
+        if (selectPiece == -1) // 선택된 기물 없음
+        {
+            if (tiles[x, y] == TILE.WHITE) // 선택한 타일이 플레이어가 있는 타일
+            {
+                bool[] myP = { false, false, false, false };
+                int myP_count = 1;
+                int myP_pre_count = 0;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if (playerP[i].x == x && playerP[i].y == y)
+                    {
+                        selectPiece = i; // 기물 선택
+                        myP[i] = true;
+                    }
+                }
+
+                // 이동 가능 위치 판정
+                while (myP_count != myP_pre_count)
+                {
+                    myP_count = myP_pre_count;
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (myP[i])
+                        {
+                            foreach (var moved in moveDir)
+                            {
+                                Vector2Int pos = playerP[i] + moved;
+
+                                if (pos.x <= 8 && pos.x >= 1 && pos.y <= 8 && pos.y >= 1)
+                                {
+                                    if (tiles[pos.x, pos.y] == TILE.NONE)
+                                    {
+                                        GameObject newCanMove = GameObject.Instantiate(canMove, canMoveTile.transform);
+                                        newCanMove.transform.localPosition = new Vector3(pos.x, pos.y);
+                                        canMoveTiles.Add(newCanMove);
+                                        tiles[pos.x, pos.y] = TILE.CAN;
+                                    }
+                                    else
+                                    {
+                                        if (tiles[pos.x, pos.y] == TILE.WHITE)
+                                        {
+                                            for (int j = 0; j < 4; j++)
+                                            {
+                                                if (playerP[j] == pos)
+                                                {
+                                                    if (myP[j] == false)
+                                                    {
+                                                        myP[j] = true;
+                                                        myP_count++;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }    
+
     public void TileClick()
     {
-        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        int x = (int)Mathf.Round(pos.x);
-        int y = (int)Mathf.Round(pos.y);
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            int x = (int)Mathf.Round(pos.x + 4.5f);
+            int y = (int)Mathf.Round(pos.y + 4.5f);
 
-        if (x <= 8 && x >= 1 && y <= 8 && y >= 1) // 체커판 안을 누름
-        {
-            if (step == 1)
-                ClearPiece(x, y);
-        }
-        else // 체커판 안을 누르지 않음
-        {
-            Debug.Log("체커판 아님");
+            if (x <= 8 && x >= 1 && y <= 8 && y >= 1) // 체커판 안을 누름
+            {
+                if (step == 1)
+                    ClearPiece(x, y);
+                else if (step == 3)
+                    TileClickGame(x, y);
+            }
+            else // 체커판 안을 누르지 않음
+            {
+
+            }
         }
     }
 
@@ -133,14 +214,14 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         ShowText("스테일메이트에 오신것을 환영합니다!");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("지금부터 스테일메이트의 튜토리얼을 시작하겠습니다");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("스테일메이트는 상대방의 경로를 막아 승리하는 보드게임입니다");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("기물이 한번이라도 지나간 타일은 지나갈 수 없습니다");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("경기를 시작하기 전 원하는 위치에 4개의 기물을 배치하세요");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("지금부터 스테일메이트의 튜토리얼을 시작하겠습니다");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("스테일메이트는 상대방의 경로를 막아 승리하는 보드게임입니다");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("기물이 한번이라도 지나간 타일은 지나갈 수 없습니다");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("경기를 시작하기 전 원하는 위치에 4개의 기물을 배치하세요");
         step = 1;
     }
 
@@ -148,14 +229,14 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         ShowText("두 상대가 배치를 마치면 게임이 시작됩니다");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("게임은 두 플레이어 순서대로 하나의 기물을 옮기며 진행됩니다");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("기물의 이동 방법은 체스의 나이트와 동일합니다");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("추가로 이동 위치에 자신의 기물이 있다면 건너뛸 수 있습니다");
-        yield return new WaitForSeconds(3.5f);
-        ShowText("원하는 기물을 원하는 위치로 옮기세요");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("게임은 두 플레이어 순서대로 하나의 기물을 옮기며 진행됩니다");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("기물의 이동 방법은 체스의 나이트와 동일합니다");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("추가로 이동 위치에 자신의 기물이 있다면 건너뛸 수 있습니다");
+        //yield return new WaitForSeconds(3.5f);
+        //ShowText("원하는 기물을 원하는 위치로 옮기세요");
         step = 3;
     }
 }
