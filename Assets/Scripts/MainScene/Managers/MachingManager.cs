@@ -25,6 +25,7 @@ public class MachingManager : MonoBehaviour
     private STATE state_;
     private SocketIOComponent socket;
     private float cooltime = 0;
+    private bool isMaching = false;
 
     public STATE State
     {
@@ -71,7 +72,8 @@ public class MachingManager : MonoBehaviour
     
     public void MachingCancelTry()
     {
-        socket.Emit("matchingCancelRequest");
+        if (isMaching)
+            socket.Emit("matchingCancelRequest");
     }
 
     private void Maching()
@@ -173,6 +175,7 @@ public class MachingManager : MonoBehaviour
         // 매칭 시도 성공
         if (success)
         {
+            isMaching = true;
             Maching();
         }
         else
@@ -190,6 +193,7 @@ public class MachingManager : MonoBehaviour
         // 매칭 취소 성공
         if (success)
         {
+            isMaching = false;
             Dismaching();
         }
     }
