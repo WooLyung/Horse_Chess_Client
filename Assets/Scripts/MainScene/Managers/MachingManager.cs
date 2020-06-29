@@ -20,6 +20,7 @@ public class MachingManager : MonoBehaviour
     public Animator canvas;
     public Text message;
     public Text button;
+    public DataSender sender;
 
     private STATE state_;
     private SocketIOComponent socket;
@@ -36,20 +37,26 @@ public class MachingManager : MonoBehaviour
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
-        socket.On("machingResponse", machingResponse);
+        socket.On("enterRoomResponse", enterRoomResponse);
+        socket.On("matchingCancelResponse", matchingCancelResponse);
+        socket.On("machingSuccess", machingSuccess);
     }
 
     public void MachingButton()
     {
         if (State == STATE.NONE)
         {
-            Maching();
-            socket.Emit("maching");
+            socket.Emit("enterRoomRequest");
         }
         else if (State == STATE.MACHING)
         {
-            Dismaching();
+            socket.Emit("matchingCancelRequest");
         }
+    }
+    
+    public void MachingCancelTry()
+    {
+        socket.Emit("matchingCancelRequest");
     }
 
     private void Maching()
@@ -89,7 +96,7 @@ public class MachingManager : MonoBehaviour
         StartCoroutine("MachingFailEnd");
     }
 
-    private void MachingSuccess()
+    private void MachingSuccess(SocketIOEvent obj)
     {
         state_ = STATE.START;
 
@@ -100,6 +107,10 @@ public class MachingManager : MonoBehaviour
         canvas.SetInteger("State", 1);
 
         StartCoroutine("ChangeScene");
+
+        DataSender newSender = GameObject.Instantiate(sender).GetComponent<DataSender>();
+        Debug.Log(obj.data);
+        // 데이터 저장
     }
 
     IEnumerator MachingFailEnd()
@@ -114,21 +125,38 @@ public class MachingManager : MonoBehaviour
         SceneManager.LoadScene(3);
     }
 
-    private void machingResponse(SocketIOEvent obj)
+    private void enterRoomResponse(SocketIOEvent obj)
     {
         JSONObject data = obj.data;
         bool success = Boolean.Parse(data.GetField("success").ToString());
 
-        // 매칭 성공
+        // 매칭 시도 성공
         if (success)
         {
             Debug.Log(data);
-            MachingSuccess();
+            Maching();
         }
         else
         {
             String err = data.GetField("err").ToString();
             MachingFail(err.Substring(1, err.Length - 2));
         }
+    }
+
+    private void matchingCancelResponse(SocketIOEvent obj)
+    {
+        JSONObject data = obj.data;
+        bool success = Boolean.Parse(data.GetField("success").ToString());
+
+        // 매칭 취소 성공
+        if (success)
+        {
+            Dismaching();
+        }
+    }
+
+    private void machingSuccess(SocketIOEvent obj)
+    {
+        MachingSuccess(obj);
     }
 }

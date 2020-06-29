@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 353076216}
-  socket: {fileID: 0}
+  machingManager: {fileID: 1311433973}
   nickname: {fileID: 240286583}
   ranking: {fileID: 937906287}
   winRate: {fileID: 2134378069}
@@ -6620,6 +6620,7 @@ MonoBehaviour:
   canvas: {fileID: 353076216}
   message: {fileID: 1239106667}
   button: {fileID: 2083330366}
+  sender: {fileID: 114445574137441678, guid: ae53dd07358e3424eb1045d8f47e86bc, type: 2}
 --- !u!1 &1321451185
 GameObject:
   m_ObjectHideFlags: 0

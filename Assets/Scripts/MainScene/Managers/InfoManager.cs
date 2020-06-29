@@ -8,7 +8,7 @@ using SocketIO;
 public class InfoManager : MonoBehaviour
 {
     public Animator animator;
-    public SocketIOComponent socket;
+    public MachingManager machingManager;
 
     public Text nickname;
     public Text ranking;
@@ -19,6 +19,8 @@ public class InfoManager : MonoBehaviour
     public Text nickname2;
     public Text ranking2;
     public Text score2;
+
+    private SocketIOComponent socket;
 
     private void Awake()
     {
@@ -55,10 +57,12 @@ public class InfoManager : MonoBehaviour
     {
         animator.SetInteger("State", 1);
         StartCoroutine("ChangeTutorial");
+        machingManager.MachingCancelTry();
     }
 
     public void Logout()
     {
+        machingManager.MachingCancelTry();
         animator.SetInteger("State", 1);
         socket.Emit("logoutRequest");
         PlayerPrefs.SetInt("KeepLogin", 0);
