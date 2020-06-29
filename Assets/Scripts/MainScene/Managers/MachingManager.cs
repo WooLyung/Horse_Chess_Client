@@ -24,6 +24,7 @@ public class MachingManager : MonoBehaviour
 
     private STATE state_;
     private SocketIOComponent socket;
+    private float cooltime = 0;
 
     public STATE State
     {
@@ -42,15 +43,29 @@ public class MachingManager : MonoBehaviour
         socket.On("machingSuccess", machingSuccess);
     }
 
+    private void Update()
+    {
+        if (cooltime > 0)
+        {
+            cooltime -= Time.deltaTime;
+            if (cooltime < 0) cooltime = 0;
+        }
+    }
+
     public void MachingButton()
     {
-        if (State == STATE.NONE)
+        if (cooltime == 0)
         {
-            socket.Emit("enterRoomRequest");
-        }
-        else if (State == STATE.MACHING)
-        {
-            socket.Emit("matchingCancelRequest");
+            if (State == STATE.NONE)
+            {
+                socket.Emit("enterRoomRequest");
+            }
+            else if (State == STATE.MACHING)
+            {
+                socket.Emit("matchingCancelRequest");
+            }
+
+            cooltime = 0.2f;
         }
     }
     
@@ -158,7 +173,6 @@ public class MachingManager : MonoBehaviour
         // 매칭 시도 성공
         if (success)
         {
-            Debug.Log(data);
             Maching();
         }
         else
