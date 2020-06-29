@@ -12,6 +12,7 @@ public class ServerManager : MonoBehaviour
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
+        socket.On("placeResponse", placeResponse);
         socket.On("turnStart", turnStart);
         socket.On("turnEnd", turnEnd);
 	}
@@ -27,16 +28,20 @@ public class ServerManager : MonoBehaviour
             {
                 if (data.map[x, y] == InGameData.TILE.PLAYER)
                 {
-                    pos[count] = new Vector2Int(x - 1, y - 1);
+                    if (!data.isFirst) // 흑
+                        pos[count] = new Vector2Int(x - 1, 8 - y);
+                    else // 백
+                        pos[count] = new Vector2Int(x - 1, y - 1);
+                    Debug.Log(pos[count]);
                     count++;
                 }
             }
         }
 
-        JSONObject emitData = new JSONObject("{\"fisrtX\":" + pos[0].x + ", \"fisrtY\":" + pos[0].y +
+        JSONObject emitData = new JSONObject("{\"firstX\":" + pos[0].x + ", \"firstY\":" + pos[0].y +
             ", \"secondX\":" + pos[1].x + ", \"secondY\":" + pos[1].y +
             ", \"thirdX\":" + pos[2].x + ", \"thirdY\":" + pos[2].y +
-            ", \"fourthX\":" + pos[3].x + ", \"fourthY\":2" + pos[3].y + "}");
+            ", \"fourthX\":" + pos[3].x + ", \"fourthY\":" + pos[3].y + "}");
         socket.Emit("placeRequest", emitData);
     }
 
@@ -44,10 +49,16 @@ public class ServerManager : MonoBehaviour
     {
         Debug.Log("턴 시작");
         ingameM.TurnStart();
+        Debug.Log(obj.data.ToString());
     }
 
     private void turnEnd(SocketIOEvent obj) // 턴 종료
     {
         Debug.Log("턴 종료");
+    }
+
+    private void placeResponse(SocketIOEvent obj) // 턴 종료
+    {
+        Debug.Log(obj.data.ToString());
     }
 }

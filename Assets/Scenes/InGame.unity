@@ -1892,7 +1892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 554581066}
   m_Layer: 0
-  m_Name: CanMove
+  m_Name: CanMoveParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4463,6 +4463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ded61ab515eb74ea1059ae65d33b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ingameM: {fileID: 2138614642}
 --- !u!1 &1200512178
 GameObject:
   m_ObjectHideFlags: 0
@@ -4909,7 +4910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1306191005}
   m_Layer: 0
-  m_Name: CantMove
+  m_Name: CantMoveParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6909,6 +6910,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFirst: 1
+  isMyTurn: 1
+  turnCount: 0
   opponentName: SANS
   opponentRating: 0
   opponentWinRate: 0
@@ -8538,7 +8541,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiM: {fileID: 1132351245}
+  serverM: {fileID: 1198085452}
   data: {fileID: 1731100869}
+  whoTurn: {fileID: 1168049869}
+  screen: {fileID: 925485919}
+  CanMoveParent: {fileID: 554581065}
+  CantMoveParent: {fileID: 1306191004}
   blackPieceParent: {fileID: 43651003}
   whitePieceParent: {fileID: 499727516}
   whitePiece: {fileID: 1718156004410882, guid: 2ef093eac6980234d9534d9a8192ee20, type: 2}

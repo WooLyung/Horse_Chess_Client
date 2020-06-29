@@ -15,6 +15,11 @@ public class InGameManager : MonoBehaviour
     public ServerManager serverM;
     public InGameData data;
 
+    public Animator whoTurn;
+    public Animator screen;
+
+    public GameObject CanMoveParent;
+    public GameObject CantMoveParent;
     public GameObject blackPieceParent;
     public GameObject whitePieceParent;
     public GameObject whitePiece;
@@ -56,5 +61,33 @@ public class InGameManager : MonoBehaviour
     public void TurnStart()
     {
         data.turnCount++;
+        DestroyObjects();
+        uiM.StartTimer(60);
+        whoTurn.SetBool("Start", true);
+        // 누구 턴인지
+        // 맵 설정
+
+        if (data.turnCount == 1)
+            screen.SetBool("IsDisappear", true);
+    }
+
+    private void DestroyObjects()
+    {
+        foreach (var value in CanMoveParent.GetComponentsInChildren<Transform>())
+        {
+            GameObject.Destroy(value.gameObject);
+        }
+        foreach (var value in CantMoveParent.GetComponentsInChildren<Transform>())
+        {
+            GameObject.Destroy(value.gameObject);
+        }
+        foreach (var value in blackPieceParent.GetComponentsInChildren<Transform>())
+        {
+            GameObject.Destroy(value.gameObject);
+        }
+        foreach (var value in whitePieceParent.GetComponentsInChildren<Transform>())
+        {
+            GameObject.Destroy(value.gameObject);
+        }
     }
 }
