@@ -4161,6 +4161,8 @@ MonoBehaviour:
   opponentInfo: {fileID: 171892850}
   playerName: {fileID: 912532276}
   playerInfo: {fileID: 978196821}
+  takeBack: {fileID: 1342097714}
+  addTime: {fileID: 1309358866}
 --- !u!1001 &1162514684
 Prefab:
   m_ObjectHideFlags: 0

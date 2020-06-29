@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     public Text opponentInfo;
     public Text playerName;
     public Text playerInfo;
+    public Text takeBack;
+    public Text addTime;
 
     private void Start()
     {
@@ -64,5 +66,19 @@ public class UIManager : MonoBehaviour
         maxTime += time;
         isTimerActivate = true;
         effectM.AddTimeEffect();
+    }
+
+    public void SetButtonText()
+    {
+        addTime.text = "시간 연장";
+        takeBack.text = "무르기";
+
+        if (data.isMyTurn)
+        {
+            if (data.turnCount <= 2)
+            {
+                takeBack.text = "불가능";
+            }
+        }
     }
 }

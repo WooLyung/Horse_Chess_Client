@@ -53,6 +53,9 @@ public class InGameManager : MonoBehaviour
 
         if (data.settedPieces >= 4) // 배치 완료
         {
+            TurnStart();
+            // 테스트용
+
             gameState_ = GAME_STATE.GAME;
             serverM.SettingDone(data);
         }
@@ -61,8 +64,9 @@ public class InGameManager : MonoBehaviour
     public void TurnStart()
     {
         data.turnCount++;
-        DestroyObjects();
+        //DestroyObjects();
         uiM.StartTimer(60);
+        uiM.SetButtonText();
         whoTurn.SetBool("Start", true);
         // 누구 턴인지
         // 맵 설정
