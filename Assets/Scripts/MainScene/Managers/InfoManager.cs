@@ -41,7 +41,7 @@ public class InfoManager : MonoBehaviour
             if (playerData.WinGame == 0)
                 winRate.text = "-%";
             else
-                winRate.text = playerData.WinGame * 100 / playerData.Game + "%";
+                winRate.text = Mathf.Round((float)playerData.WinGame * 10000 / playerData.Game) / 100 + "%";
 
             // -----
             

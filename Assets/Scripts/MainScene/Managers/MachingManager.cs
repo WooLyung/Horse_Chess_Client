@@ -108,9 +108,34 @@ public class MachingManager : MonoBehaviour
 
         StartCoroutine("ChangeScene");
 
+        JSONObject data = obj.data;
+        int blackIndex = int.Parse(data.GetField("room").GetField("blackDataIndex").ToString());
+        int whiteIndex = blackIndex == 1 ? 0 : 1;
+
         DataSender newSender = GameObject.Instantiate(sender).GetComponent<DataSender>();
-        Debug.Log(obj.data);
-        // 데이터 저장
+        newSender.isFirst = bool.Parse(data.GetField("data").GetField("first").ToString());
+        JSONObject opponent = null;
+
+        if (newSender.isFirst) // 백일 경우
+        {
+            opponent = data.GetField("users")[blackIndex];
+        }
+        else
+        {
+            opponent = data.GetField("users")[whiteIndex];
+        }
+
+        newSender.opponentName = opponent.GetField("nickname").ToString();
+        newSender.opponentName = newSender.opponentName.Substring(1, newSender.opponentName.Length - 2);
+        newSender.opponentRating = int.Parse(opponent.GetField("rate").ToString());
+
+        float numOfPlayedGame = int.Parse(opponent.GetField("numOfPlayedGame").ToString());
+        float numOfWonGame = int.Parse(opponent.GetField("numOfWonGame").ToString());
+
+        if (numOfPlayedGame == 0)
+            newSender.opponentWinRate = 0;
+        else
+            newSender.opponentWinRate = Mathf.Round((float)numOfWonGame * 10000 / numOfPlayedGame) / 100;
     }
 
     IEnumerator MachingFailEnd()
