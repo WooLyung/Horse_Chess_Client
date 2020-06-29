@@ -52,4 +52,9 @@ public class InGameManager : MonoBehaviour
             serverM.SettingDone(data);
         }
     }
+
+    public void TurnStart()
+    {
+        data.turnCount++;
+    }
 }

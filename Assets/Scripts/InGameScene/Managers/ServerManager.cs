@@ -6,13 +6,14 @@ using UnityEngine;
 public class ServerManager : MonoBehaviour
 {
     private SocketIOComponent socket;
+    public InGameManager ingameM;
 
 	private void Awake()
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
-        socket.On("turnStart", TurnStart);
-        socket.On("turnEnd", TurnEnd);
+        socket.On("turnStart", turnStart);
+        socket.On("turnEnd", turnEnd);
 	}
 
     public void SettingDone(InGameData data)
@@ -39,12 +40,13 @@ public class ServerManager : MonoBehaviour
         socket.Emit("placeRequest", emitData);
     }
 
-    private void TurnStart(SocketIOEvent obj) // 턴 시작
+    private void turnStart(SocketIOEvent obj) // 턴 시작
     {
         Debug.Log("턴 시작");
+        ingameM.TurnStart();
     }
 
-    private void TurnEnd(SocketIOEvent obj) // 턴 종료
+    private void turnEnd(SocketIOEvent obj) // 턴 종료
     {
         Debug.Log("턴 종료");
     }

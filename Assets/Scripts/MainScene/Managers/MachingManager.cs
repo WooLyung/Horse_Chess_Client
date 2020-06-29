@@ -41,7 +41,7 @@ public class MachingManager : MonoBehaviour
 
         socket.On("enterRoomResponse", enterRoomResponse);
         socket.On("matchingCancelResponse", matchingCancelResponse);
-        socket.On("machingSuccess", machingSuccess);
+        socket.On("matchingSuccess", matchingSuccess);
     }
 
     private void Update()
@@ -113,7 +113,7 @@ public class MachingManager : MonoBehaviour
         StartCoroutine("MachingFailEnd");
     }
 
-    private void MachingSuccess(SocketIOEvent obj)
+    private void MatchingSuccess(SocketIOEvent obj)
     {
         state_ = STATE.START;
 
@@ -130,6 +130,7 @@ public class MachingManager : MonoBehaviour
         int whiteIndex = blackIndex == 1 ? 0 : 1;
 
         DataSender newSender = GameObject.Instantiate(sender).GetComponent<DataSender>();
+        newSender.name = "DataSender";
         newSender.isFirst = bool.Parse(data.GetField("data").GetField("first").ToString());
         JSONObject opponent = null;
 
@@ -198,8 +199,8 @@ public class MachingManager : MonoBehaviour
         }
     }
 
-    private void machingSuccess(SocketIOEvent obj)
+    private void matchingSuccess(SocketIOEvent obj)
     {
-        MachingSuccess(obj);
+        MatchingSuccess(obj);
     }
 }

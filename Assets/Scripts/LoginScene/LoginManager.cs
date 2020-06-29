@@ -216,6 +216,8 @@ public class LoginManager : MonoBehaviour
 
         String id = PlayerPrefs.GetString("KeepLogin_ID");
         String pwd = PlayerPrefs.GetString("KeepLogin_pwd");
+        login_id.text = id;
+        login_pwd.text = pwd;
         String json = String.Format("\"username\":\"{0}\", \"password\":\"{1}\"", id, pwd);
 
         JSONObject data = new JSONObject("{" + json + "}");
