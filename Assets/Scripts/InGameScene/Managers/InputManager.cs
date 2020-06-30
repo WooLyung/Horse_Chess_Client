@@ -18,6 +18,39 @@ public class InputManager : MonoBehaviour
         TileClick();
     }
 
+    public bool isStalemate()
+    {
+        int count = 0;
+        for (int x = 1; x <= 8; x++)
+        {
+            for (int y = 1; y <= 8; y++)
+            {
+                if (data.map[x, y] == InGameData.TILE.PLAYER)
+                {
+                    foreach (var value in moveDir)
+                    {
+                        Vector2Int pos = new Vector2Int(x + value.x, y + value.y);
+
+                        if (pos.x <= 8 && pos.x >= 1 && pos.y <= 8 && pos.y >= 1) // 맵 안일 경우
+                        {
+                            if (data.map[pos.x, pos.y] == InGameData.TILE.NONE) // 아무것도 없는 타일일 경우
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Debug.Log("이동 가능 위치 : " + count);
+
+        if (count == 0)
+            return true;
+        else
+            return false;
+    }
+
     private void TileClick()
     {
         if (Input.GetMouseButtonDown(0))
@@ -39,7 +72,8 @@ public class InputManager : MonoBehaviour
 
     private void OutClick(int x, int y)
     {
-        if (ingameM.GameState == InGameManager.GAME_STATE.GAME) // 게임중
+        if (ingameM.GameState == InGameManager.GAME_STATE.GAME
+            && data.isMyTurn) // 게임중
         {
             if (selectTile.x != 0) // 선택된 타일이 있을 경우
             {
@@ -58,7 +92,8 @@ public class InputManager : MonoBehaviour
                 ingameM.Setting(x, y);
             }
         }
-        else if (ingameM.GameState == InGameManager.GAME_STATE.GAME) // 게임중
+        else if (ingameM.GameState == InGameManager.GAME_STATE.GAME
+            && data.isMyTurn) // 게임중
         {
             if (selectTile.x == 0) // 선택된 타일이 없을 경우
             {

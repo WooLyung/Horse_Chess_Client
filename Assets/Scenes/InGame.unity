@@ -811,7 +811,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 141920460}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1132351245}
+        m_MethodName: Surrender
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &141920460
@@ -4229,6 +4240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectM: {fileID: 1395330647}
+  ingameM: {fileID: 2138614642}
   data: {fileID: 1731100869}
   textAnim: {fileID: 1622224499}
   sceneAnim: {fileID: 1902784851}
@@ -8820,6 +8832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiM: {fileID: 1132351245}
   serverM: {fileID: 1198085452}
+  inputM: {fileID: 1565738334}
   data: {fileID: 1731100869}
   whoTurn: {fileID: 1168049869}
   screen: {fileID: 925485919}

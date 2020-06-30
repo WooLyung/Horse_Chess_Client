@@ -13,6 +13,7 @@ public class InGameManager : MonoBehaviour
 
     public UIManager uiM;
     public ServerManager serverM;
+    public InputManager inputM;
     public InGameData data;
 
     public Animator whoTurn;
@@ -79,22 +80,45 @@ public class InGameManager : MonoBehaviour
         data.isSended_addtime = false;
         data.isSended_takeback = false;
 
+        data.isMyTurn = isMyturn;
         uiM.StartTimer(60);
         uiM.SetButtonText();
         DestroyObjects();
         CreatePieces(map);
-        data.isMyTurn = isMyturn;
-        whoTurn.SetBool("MyTurn", isMyturn);
         whoTurn.SetBool("Start", true);
+        whoTurn.SetBool("MyTurn", isMyturn);
 
         if (data.turnCount == 1)
             screen.SetBool("IsDisappear", true);
         if (isMyturn)
-            uiM.ShowText("당신의 차례입니다");
+        {
+            if (inputM.isStalemate())
+            {
+                Stalemate();
+            }
+            else
+            {
+                uiM.ShowText("당신의 차례입니다");
+            }
+        }
     }
 
-    public void GameFinish()
+    public void Surrender()
     {
+        gameState_ = GAME_STATE.FINISH;
+        serverM.Surrender();
+    }
+
+    public void Stalemate()
+    {
+        gameState_ = GAME_STATE.FINISH;
+        serverM.Stalemate();
+    }
+
+    public void GameFinish(JSONObject json)
+    {
+        Debug.Log(json);
+
         gameState_ = GAME_STATE.FINISH;
         uiM.GameFinish();
     }

@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     private bool isTimerActivate = false;
 
     public EffectManager effectM;
+    public InGameManager ingameM;
     public InGameData data;
     public Animator textAnim;
     public Animator sceneAnim;
@@ -146,6 +147,11 @@ public class UIManager : MonoBehaviour
                 // 시간연장 수락 메세지 보냄
             }
         }
+    }
+
+    public void Surrender()
+    {
+        ingameM.Surrender();
     }
 
     private IEnumerator GameFinishCoroutine()

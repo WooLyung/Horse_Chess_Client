@@ -15,12 +15,25 @@ public class ServerManager : MonoBehaviour
 
         socket.On("placeResponse", placeResponse);
         socket.On("turnStart", turnStart);
+        socket.On("gameOver", gameOver);
 	}
 
     public void PieceMove(int x1, int y1, int x2, int y2)
     {
-        JSONObject json = new JSONObject("{\"beforeX\":" + x1 + "\"beforeY\":" + y1 + "\"afterX\":" + x2 + "\"afterY\":" + y2 + "}");
-        socket.Emit("turnEnd", json);
+        JSONObject json = new JSONObject("{\"beforeX\":" + x1 + ",\"beforeY\":" + y1 + ",\"afterX\":" + x2 + ",\"afterY\":" + y2 + "}");
+        socket.Emit("turnEndRequest", json);
+    }
+
+    public void Surrender()
+    {
+        Debug.Log("서렌");
+        socket.Emit("surrenderRequest");
+    }
+
+    public void Stalemate()
+    {
+        Debug.Log("스테일메이트");
+        socket.Emit("stalemateRequest");
     }
 
     public void SettingDone()
@@ -53,17 +66,21 @@ public class ServerManager : MonoBehaviour
     private void turnStart(SocketIOEvent obj) // 턴 시작
     {
         JSONObject json = obj.data;
-        int turn = int.Parse(json.GetField("room").GetField("turn").ToString());
+        int turn = int.Parse(json.GetField("data").GetField("turn").ToString());
         bool isMyturn = false;
 
         if (data.isFirst && turn == 2 || !data.isFirst && turn == 1) // 자신이 백이고 턴이 2(백) 이거나, 자신이 흑이고 턴이 1(흑) 일 때
             isMyturn = true;
 
-        ingameM.TurnStart(isMyturn, json.GetField("room").GetField("chessboard"));
+        ingameM.TurnStart(isMyturn, json.GetField("data").GetField("chessboard"));
     }
 
     private void placeResponse(SocketIOEvent obj) // 턴 종료
     {
-        Debug.Log(obj.data.ToString());
+    }
+
+    private void gameOver(SocketIOEvent obj)
+    {
+        ingameM.GameFinish(obj.data);
     }
 }

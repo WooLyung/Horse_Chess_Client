@@ -39,7 +39,7 @@ public class InfoManager : MonoBehaviour
             record.text = playerData.Game + "전 " + playerData.WinGame + "승 " + (playerData.Game - playerData.WinGame) + "패";
 
             if (playerData.WinGame == 0)
-                winRate.text = "-%";
+                winRate.text = "0%";
             else
                 winRate.text = Mathf.Round((float)playerData.WinGame * 10000 / playerData.Game) / 100 + "%";
 
