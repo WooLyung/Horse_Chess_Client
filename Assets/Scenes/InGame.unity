@@ -4155,6 +4155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectM: {fileID: 1395330647}
   data: {fileID: 1731100869}
+  textAnim: {fileID: 1622224499}
+  text: {fileID: 1622224496}
   timer: {fileID: 1461378906}
   timerText: {fileID: 756167682}
   opponentName: {fileID: 1421542325}

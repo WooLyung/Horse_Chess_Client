@@ -14,7 +14,6 @@ public class ServerManager : MonoBehaviour
 
         socket.On("placeResponse", placeResponse);
         socket.On("turnStart", turnStart);
-        socket.On("turnEnd", turnEnd);
 	}
 
     public void PieceMove(int x, int y)
@@ -54,11 +53,6 @@ public class ServerManager : MonoBehaviour
         Debug.Log("턴 시작");
         ingameM.TurnStart();
         Debug.Log(obj.data.ToString());
-    }
-
-    private void turnEnd(SocketIOEvent obj) // 턴 종료
-    {
-        Debug.Log("턴 종료");
     }
 
     private void placeResponse(SocketIOEvent obj) // 턴 종료

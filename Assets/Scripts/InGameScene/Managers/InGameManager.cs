@@ -53,21 +53,21 @@ public class InGameManager : MonoBehaviour
 
         if (data.settedPieces >= 4) // 배치 완료
         {
-            TurnStart();
-            // 테스트용
-
-            gameState_ = GAME_STATE.GAME;
+            gameState_ = GAME_STATE.WAIT_SERVER;
             serverM.SettingDone(data);
         }
     }
 
     public void PieceMove(int x, int y)
     {
+        gameState_ = GAME_STATE.WAIT_SERVER;
         serverM.PieceMove(x, y);
     }
 
     public void TurnStart()
     {
+        gameState_ = GAME_STATE.GAME;
+
         data.turnCount++;
         DestroyObjects();
         uiM.StartTimer(60);

@@ -7,10 +7,14 @@ public class UIManager : MonoBehaviour
 {
     private float time = 0;
     private float maxTime = 60;
+    private float textTime = 0;
+    private bool isAppearTime = false;
     private bool isTimerActivate = false;
 
     public EffectManager effectM;
     public InGameData data;
+    public Animator textAnim;
+    public Text text;
 
     public Image timer;
     public Text timerText;
@@ -52,7 +56,18 @@ public class UIManager : MonoBehaviour
             if (time >= maxTime)
                 isTimerActivate = false;
         }
-	}
+
+        if (isAppearTime)
+        {
+            textTime += Time.deltaTime;
+            if (textTime >= 2.7f)
+            {
+                textTime = 0;
+                isAppearTime = false;
+                textAnim.SetBool("IsAppear", false);
+            }
+        }
+    }
 
     public void StartTimer(float maxTime)
     {
@@ -80,5 +95,13 @@ public class UIManager : MonoBehaviour
                 takeBack.text = "불가능";
             }
         }
+    }
+
+    public void ShowText(string text)
+    {
+        textAnim.SetBool("IsAppear", true);
+        textTime = 0;
+        isAppearTime = true;
+        this.text.text = text;
     }
 }
