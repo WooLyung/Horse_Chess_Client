@@ -18,6 +18,11 @@ public class InGameData : MonoBehaviour
     public int settedPieces = 0;
     public TILE[,] map = new TILE[9, 9];
 
+    public bool isClicked_takeback = false;
+    public bool isClicked_addtime = false;
+    public bool isSended_takeback = false;
+    public bool isSended_addtime = false;
+
     private void Awake()
     {
         DataSender sender = GameObject.Find("DataSender").GetComponent<DataSender>();

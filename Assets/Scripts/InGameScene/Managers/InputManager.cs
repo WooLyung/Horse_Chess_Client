@@ -84,7 +84,7 @@ public class InputManager : MonoBehaviour
                 else if (data.map[x, y] == InGameData.TILE.CAN) // 이동 가능 위치를 눌렀을 경우
                 {
                     DestroyCanTiles();
-                    PieceMove(x, y);
+                    PieceMove(selectTile.x, selectTile.y, x, y);
                 }
                 else // 이동 불가능 위치를 눌렀을 경우
                 {
@@ -117,9 +117,9 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void PieceMove(int x, int y)
+    private void PieceMove(int x1, int y1, int x2, int y2)
     {
-        ingameM.PieceMove(x, y);
+        ingameM.PieceMove(x1, y1, x2, y2);
     }
 
     private void CreateCanTiles(int x, int y)

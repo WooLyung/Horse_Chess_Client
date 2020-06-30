@@ -114,6 +114,40 @@ public class UIManager : MonoBehaviour
         StartCoroutine("GameFinishCoroutine");
     }
 
+    public void TakeBack()
+    {
+        if (!data.isClicked_takeback)
+        {
+            data.isClicked_takeback = true;
+
+            if (data.isMyTurn)
+            {
+                // 무르기 요청 메세지 보냄
+            }
+            else if (data.isSended_takeback)
+            {
+                // 무르기 수락 메세지 보냄
+            }
+        }
+    }
+
+    public void AddTime()
+    {
+        if (!data.isClicked_addtime)
+        {
+            data.isClicked_addtime = true;
+
+            if (data.isMyTurn)
+            {
+                // 시간연장 요청 메세지 보냄
+            }
+            else if (data.isSended_addtime)
+            {
+                // 시간연장 수락 메세지 보냄
+            }
+        }
+    }
+
     private IEnumerator GameFinishCoroutine()
     {
         yield return new WaitForSeconds(1);

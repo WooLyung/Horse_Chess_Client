@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4598281759097810}
   - component: {fileID: 212542860701562414}
   m_Layer: 0
-  m_Name: cantMove
+  m_Name: cantMoveTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

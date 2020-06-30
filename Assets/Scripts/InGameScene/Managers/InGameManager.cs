@@ -59,10 +59,14 @@ public class InGameManager : MonoBehaviour
         }
     }
 
-    public void PieceMove(int x, int y)
+    public void PieceMove(int x1, int y1, int x2, int y2)
     {
         gameState_ = GAME_STATE.WAIT_SERVER;
-        serverM.PieceMove(x, y);
+
+        if (data.isFirst)
+            serverM.PieceMove(x1 - 1, y1 - 1, x2 - 1, y2 - 1);
+        else
+            serverM.PieceMove(x1 - 1, 8 - y1, x2 - 1, 8 - y2);
     }
 
     public void TurnStart(bool isMyturn, JSONObject map)
@@ -70,6 +74,11 @@ public class InGameManager : MonoBehaviour
         gameState_ = GAME_STATE.GAME;
 
         data.turnCount++;
+        data.isClicked_addtime = false;
+        data.isClicked_takeback = false;
+        data.isSended_addtime = false;
+        data.isSended_takeback = false;
+
         uiM.StartTimer(60);
         uiM.SetButtonText();
         DestroyObjects();
@@ -80,6 +89,8 @@ public class InGameManager : MonoBehaviour
 
         if (data.turnCount == 1)
             screen.SetBool("IsDisappear", true);
+        if (isMyturn)
+            uiM.ShowText("당신의 차례입니다");
     }
 
     public void GameFinish()

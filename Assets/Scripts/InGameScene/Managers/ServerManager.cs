@@ -17,9 +17,10 @@ public class ServerManager : MonoBehaviour
         socket.On("turnStart", turnStart);
 	}
 
-    public void PieceMove(int x, int y)
+    public void PieceMove(int x1, int y1, int x2, int y2)
     {
-        // 이동 메세지 전송
+        JSONObject json = new JSONObject("{\"beforeX\":" + x1 + "\"beforeY\":" + y1 + "\"afterX\":" + x2 + "\"afterY\":" + y2 + "}");
+        socket.Emit("turnEnd", json);
     }
 
     public void SettingDone()
