@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class UIManager : MonoBehaviour
     public EffectManager effectM;
     public InGameData data;
     public Animator textAnim;
+    public Animator sceneAnim;
+    public Animator resultAnim;
+    public Animator objectAnim;
     public Text text;
 
     public Image timer;
@@ -103,5 +107,22 @@ public class UIManager : MonoBehaviour
         textTime = 0;
         isAppearTime = true;
         this.text.text = text;
+    }
+
+    public void GameFinish()
+    {
+        StartCoroutine("GameFinishCoroutine");
+    }
+
+    private IEnumerator GameFinishCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+        resultAnim.SetInteger("State", 1);
+        yield return new WaitForSeconds(5);
+        resultAnim.SetInteger("State", 2);
+        sceneAnim.SetBool("Finish", true);
+        objectAnim.SetInteger("state", 1);
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(2);
     }
 }

@@ -80,6 +80,12 @@ public class InGameManager : MonoBehaviour
             screen.SetBool("IsDisappear", true);
     }
 
+    public void GameFinish()
+    {
+        gameState_ = GAME_STATE.FINISH;
+        uiM.GameFinish();
+    }
+
     private void CreatePieces()
     {
         // 맵 생성
