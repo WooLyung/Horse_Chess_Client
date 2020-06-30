@@ -30,6 +30,12 @@ public class UIManager : MonoBehaviour
     public Text takeBack;
     public Text addTime;
 
+    public Sprite win;
+    public Sprite lose;
+    public Image result;
+    public Text resultInfo;
+    public Text resultReason;
+
     private void Start()
     {
         opponentName.text = data.opponentName;
@@ -110,9 +116,29 @@ public class UIManager : MonoBehaviour
         this.text.text = text;
     }
 
-    public void GameFinish()
+    public void GameFinish(JSONObject json)
     {
         StartCoroutine("GameFinishCoroutine");
+
+        int rate = int.Parse(json.GetField("data").GetField("userData").GetField("rate").ToString());
+        string rateS = (rate > 0) ? "+" + rate : rate + "";
+
+        PlayerData.Instance.Rate += rate;
+        PlayerData.Instance.Game++;
+
+        resultReason.text = json.GetField("data").GetField("message").ToString();
+        resultReason.text = resultReason.text.Substring(1, resultReason.text.Length - 2);
+        resultInfo.text = data.turnCount + "턴 / " + PlayerData.Instance.Rate + "(" + rateS + ")";
+
+        if (rate > 0)
+        {
+            result.sprite = win;
+            PlayerData.Instance.WinGame++;
+        }
+        if (rate < 0)
+        {
+            result.sprite = lose;
+        }
     }
 
     public void TakeBack()
@@ -151,7 +177,8 @@ public class UIManager : MonoBehaviour
 
     public void Surrender()
     {
-        ingameM.Surrender();
+        if (ingameM.GameState == InGameManager.GAME_STATE.GAME)
+            ingameM.Surrender();
     }
 
     private IEnumerator GameFinishCoroutine()

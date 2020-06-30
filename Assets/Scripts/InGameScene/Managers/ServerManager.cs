@@ -26,13 +26,11 @@ public class ServerManager : MonoBehaviour
 
     public void Surrender()
     {
-        Debug.Log("서렌");
         socket.Emit("surrenderRequest");
     }
 
     public void Stalemate()
     {
-        Debug.Log("스테일메이트");
         socket.Emit("stalemateRequest");
     }
 

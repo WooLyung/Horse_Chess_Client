@@ -117,10 +117,8 @@ public class InGameManager : MonoBehaviour
 
     public void GameFinish(JSONObject json)
     {
-        Debug.Log(json);
-
         gameState_ = GAME_STATE.FINISH;
-        uiM.GameFinish();
+        uiM.GameFinish(json);
     }
 
     private void CreatePieces(JSONObject map)
