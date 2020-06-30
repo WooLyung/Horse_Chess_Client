@@ -61,18 +61,28 @@ public class InGameManager : MonoBehaviour
         }
     }
 
+    public void PieceMove(int x, int y)
+    {
+        serverM.PieceMove(x, y);
+    }
+
     public void TurnStart()
     {
         data.turnCount++;
-        //DestroyObjects();
+        DestroyObjects();
         uiM.StartTimer(60);
         uiM.SetButtonText();
         whoTurn.SetBool("Start", true);
-        // 누구 턴인지
-        // 맵 설정
+        CreatePieces();
+        // 누구 턴인지 설정
 
         if (data.turnCount == 1)
             screen.SetBool("IsDisappear", true);
+    }
+
+    private void CreatePieces()
+    {
+        // 맵 생성
     }
 
     private void DestroyObjects()

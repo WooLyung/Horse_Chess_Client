@@ -84,7 +84,7 @@ public class InputManager : MonoBehaviour
                 else if (data.map[x, y] == InGameData.TILE.CAN) // 이동 가능 위치를 눌렀을 경우
                 {
                     DestroyCanTiles();
-                    PieceMove();
+                    PieceMove(x, y);
                 }
                 else // 이동 불가능 위치를 눌렀을 경우
                 {
@@ -117,9 +117,9 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void PieceMove()
+    private void PieceMove(int x, int y)
     {
-        Debug.Log("이동");
+        ingameM.PieceMove(x, y);
     }
 
     private void CreateCanTiles(int x, int y)
@@ -160,6 +160,6 @@ public class InputManager : MonoBehaviour
     {
         GameObject newCanMove = GameObject.Instantiate(canMoveTile, CanMoveParent.transform);
         newCanMove.transform.localPosition = new Vector3(x, y);
-        data.map[x, y] = InGameData.TILE.NONE;
+        data.map[x, y] = InGameData.TILE.CAN;
     }
 }

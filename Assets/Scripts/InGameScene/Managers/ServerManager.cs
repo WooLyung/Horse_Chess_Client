@@ -17,6 +17,11 @@ public class ServerManager : MonoBehaviour
         socket.On("turnEnd", turnEnd);
 	}
 
+    public void PieceMove(int x, int y)
+    {
+        // 이동 메세지 전송
+    }
+
     public void SettingDone(InGameData data)
     {
         int count = 0;
