@@ -210,6 +210,11 @@ public class LoginManager : MonoBehaviour
         playerData.WinGame = winGame;
     }
 
+    public void ShowKeyboard()
+    {
+        TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+    }
+
     IEnumerator AutoLogin()
     {
         yield return new WaitForSeconds(0.3f);

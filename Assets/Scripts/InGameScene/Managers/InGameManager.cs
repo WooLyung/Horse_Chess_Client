@@ -24,6 +24,7 @@ public class InGameManager : MonoBehaviour
     public GameObject whitePieceParent;
     public GameObject whitePiece;
     public GameObject blackPiece;
+    public GameObject cantMoveTile;
 
     public GAME_STATE GameState
     {
@@ -54,7 +55,7 @@ public class InGameManager : MonoBehaviour
         if (data.settedPieces >= 4) // 배치 완료
         {
             gameState_ = GAME_STATE.WAIT_SERVER;
-            serverM.SettingDone(data);
+            serverM.SettingDone();
         }
     }
 
@@ -64,17 +65,18 @@ public class InGameManager : MonoBehaviour
         serverM.PieceMove(x, y);
     }
 
-    public void TurnStart()
+    public void TurnStart(bool isMyturn, JSONObject map)
     {
         gameState_ = GAME_STATE.GAME;
 
         data.turnCount++;
-        DestroyObjects();
         uiM.StartTimer(60);
         uiM.SetButtonText();
+        DestroyObjects();
+        CreatePieces(map);
+        data.isMyTurn = isMyturn;
+        whoTurn.SetBool("MyTurn", isMyturn);
         whoTurn.SetBool("Start", true);
-        CreatePieces();
-        // 누구 턴인지 설정
 
         if (data.turnCount == 1)
             screen.SetBool("IsDisappear", true);
@@ -86,9 +88,53 @@ public class InGameManager : MonoBehaviour
         uiM.GameFinish();
     }
 
-    private void CreatePieces()
+    private void CreatePieces(JSONObject map)
     {
-        // 맵 생성
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                int tile = int.Parse(map[x][y].ToString());
+                Vector2Int pos = new Vector2Int(x + 1, data.isFirst ? (y + 1) : (8 - y));
+                GameObject newObj = null;
+
+                if (tile == 0) // 아무것도 존재하지 않는 칸
+                {
+                    data.map[pos.x, pos.y] = InGameData.TILE.NONE;
+                }
+                else if (tile == 1) // 흑색 기물이 있는 칸
+                {
+                    if (data.isFirst) // 백색일 경우
+                        data.map[pos.x, pos.y] = InGameData.TILE.OPPONENT;
+                    else
+                        data.map[pos.x, pos.y] = InGameData.TILE.PLAYER;
+
+                    newObj = GameObject.Instantiate(blackPiece, blackPieceParent.transform);
+                    newObj.name = "blackPiece";
+                }
+                else if (tile == 2) // 백색 기물이 있는 칸
+                {
+                    if (!data.isFirst) // 흑색일 경우
+                        data.map[pos.x, pos.y] = InGameData.TILE.OPPONENT;
+                    else
+                        data.map[pos.x, pos.y] = InGameData.TILE.PLAYER;
+
+                    newObj = GameObject.Instantiate(whitePiece, whitePieceParent.transform);
+                    newObj.name = "whitePiece";
+                }
+                else if (tile == 3) // 지나갈 수 없는 칸
+                {
+                    data.map[pos.x, pos.y] = InGameData.TILE.CANT;
+                    newObj = GameObject.Instantiate(cantMoveTile, CantMoveParent.transform);
+                    newObj.name = "cantMoveTile";
+                }
+
+                if (newObj != null)
+                {
+                    newObj.transform.localPosition = new Vector3(pos.x, pos.y);
+                }
+            }
+        }
     }
 
     private void DestroyObjects()

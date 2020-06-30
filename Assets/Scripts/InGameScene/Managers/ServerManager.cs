@@ -7,8 +7,9 @@ public class ServerManager : MonoBehaviour
 {
     private SocketIOComponent socket;
     public InGameManager ingameM;
+    public InGameData data;
 
-	private void Awake()
+    private void Awake()
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
@@ -21,7 +22,7 @@ public class ServerManager : MonoBehaviour
         // 이동 메세지 전송
     }
 
-    public void SettingDone(InGameData data)
+    public void SettingDone()
     {
         int count = 0;
         Vector2Int[] pos = new Vector2Int[4];
@@ -50,9 +51,14 @@ public class ServerManager : MonoBehaviour
 
     private void turnStart(SocketIOEvent obj) // 턴 시작
     {
-        Debug.Log("턴 시작");
-        ingameM.TurnStart();
-        Debug.Log(obj.data.ToString());
+        JSONObject json = obj.data;
+        int turn = int.Parse(json.GetField("room").GetField("turn").ToString());
+        bool isMyturn = false;
+
+        if (data.isFirst && turn == 2 || !data.isFirst && turn == 1) // 자신이 백이고 턴이 2(백) 이거나, 자신이 흑이고 턴이 1(흑) 일 때
+            isMyturn = true;
+
+        ingameM.TurnStart(isMyturn, json.GetField("room").GetField("chessboard"));
     }
 
     private void placeResponse(SocketIOEvent obj) // 턴 종료
