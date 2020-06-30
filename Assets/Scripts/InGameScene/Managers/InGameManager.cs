@@ -6,7 +6,7 @@ public class InGameManager : MonoBehaviour
 {
 	public enum GAME_STATE
     {
-        SET, GAME, FINISH
+        SET, GAME, FINISH, WAIT_SERVER
     }
 
     private GAME_STATE gameState_ = GAME_STATE.SET;
@@ -79,19 +79,23 @@ public class InGameManager : MonoBehaviour
     {
         foreach (var value in CanMoveParent.GetComponentsInChildren<Transform>())
         {
-            GameObject.Destroy(value.gameObject);
+            if (value.gameObject != CanMoveParent)
+                GameObject.Destroy(value.gameObject);
         }
         foreach (var value in CantMoveParent.GetComponentsInChildren<Transform>())
         {
-            GameObject.Destroy(value.gameObject);
+            if (value.gameObject != CantMoveParent)
+                GameObject.Destroy(value.gameObject);
         }
         foreach (var value in blackPieceParent.GetComponentsInChildren<Transform>())
         {
-            GameObject.Destroy(value.gameObject);
+            if (value.gameObject != blackPieceParent)
+                GameObject.Destroy(value.gameObject);
         }
         foreach (var value in whitePieceParent.GetComponentsInChildren<Transform>())
         {
-            GameObject.Destroy(value.gameObject);
+            if (value.gameObject != whitePieceParent)
+                GameObject.Destroy(value.gameObject);
         }
     }
 }

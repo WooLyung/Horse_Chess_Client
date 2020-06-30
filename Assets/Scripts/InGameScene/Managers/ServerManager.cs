@@ -32,7 +32,6 @@ public class ServerManager : MonoBehaviour
                         pos[count] = new Vector2Int(x - 1, 8 - y);
                     else // 백
                         pos[count] = new Vector2Int(x - 1, y - 1);
-                    Debug.Log(pos[count]);
                     count++;
                 }
             }

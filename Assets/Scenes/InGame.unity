@@ -6265,6 +6265,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingameM: {fileID: 2138614642}
   data: {fileID: 1731100869}
+  CanMoveParent: {fileID: 554581065}
+  canMoveTile: {fileID: 1214531455661000, guid: d0f9da16846d3e048ab384fa44f8cbe4,
+    type: 2}
 --- !u!1 &1578309089
 GameObject:
   m_ObjectHideFlags: 0
