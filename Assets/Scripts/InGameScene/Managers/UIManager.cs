@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
             string winRate = "";
 
             if (playerData.WinGame == 0)
-                winRate = "-%";
+                winRate = "0%";
             else
                 winRate = playerData.WinGame * 100 / playerData.Game + "%";
 
@@ -183,7 +183,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator GameFinishCoroutine()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         resultAnim.SetInteger("State", 1);
         yield return new WaitForSeconds(5);
         resultAnim.SetInteger("State", 2);
