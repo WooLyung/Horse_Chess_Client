@@ -70,11 +70,21 @@ public class InGameManager : MonoBehaviour
             serverM.PieceMove(x1 - 1, 8 - y1, x2 - 1, 8 - y2);
     }
 
-    public void TurnStart(bool isMyturn, JSONObject map)
+    public void TurnStart(bool isMyturn, JSONObject map, bool isTurnBack)
     {
         gameState_ = GAME_STATE.GAME;
 
-        data.turnCount++;
+        if (!isTurnBack)
+        {
+            data.turnCount++;
+            data.turnCount2++;
+        }
+        else
+        {
+            data.turnCount -= 2;
+            data.turnCount2 = 1;
+        }
+
         data.isClicked_addtime = false;
         data.isClicked_takeback = false;
         data.isSended_addtime = false;
@@ -94,6 +104,7 @@ public class InGameManager : MonoBehaviour
         {
             if (inputM.isStalemate())
             {
+                data.turnCount--;
                 Stalemate();
             }
             else

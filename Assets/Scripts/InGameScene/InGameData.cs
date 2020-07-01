@@ -12,6 +12,7 @@ public class InGameData : MonoBehaviour
     public bool isFirst = true;
     public bool isMyTurn = true;
     public int turnCount = 0;
+    public int turnCount2 = 0;
     public string opponentName = "SANS";
     public int opponentRating = 0;
     public float opponentWinRate = 0;

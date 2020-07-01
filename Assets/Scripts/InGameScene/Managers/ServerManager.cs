@@ -7,16 +7,19 @@ public class ServerManager : MonoBehaviour
 {
     private SocketIOComponent socket;
     public InGameManager ingameM;
+    public UIManager uiM;
     public InGameData data;
 
     private void Awake()
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
-        socket.On("placeResponse", placeResponse);
         socket.On("turnStart", turnStart);
         socket.On("gameOver", gameOver);
-	}
+        socket.On("proposeExtendTimeLimits", proposeExtendTimeLimits);
+        socket.On("updateTimeLimits", updateTimeLimits);
+        socket.On("proposeTurnBack", proposeTurnBack);
+    }
 
     public void PieceMove(int x1, int y1, int x2, int y2)
     {
@@ -61,26 +64,68 @@ public class ServerManager : MonoBehaviour
         socket.Emit("placeRequest", emitData);
     }
 
+    public void RequestTakeBack() // 무르기 요청
+    {
+        socket.Emit("proposeTurnBackRequest");
+        uiM.ShowText("상대방에게 무르기를 요청했습니다");
+        uiM.takeBack.text = "요청중";
+    }
+
+    public void RequestAddTime() // 시간연장 요청
+    {
+        socket.Emit("proposeExtendTimeRequest");
+        uiM.ShowText("상대방에게 시간연장을 요청했습니다");
+        uiM.addTime.text = "요청중";
+    }
+
+    public void AcceptTakeBack() // 무르기 수락
+    {
+        socket.Emit("allowExtendTimeRequest");
+    }
+
+    public void AcceptAddTime() // 시간연장 수락
+    {
+        socket.Emit("allowTurnBackRequest");
+    }
+
     private void turnStart(SocketIOEvent obj) // 턴 시작
     {
-        Debug.Log("턴 시작 : " + obj.data);
-
         JSONObject json = obj.data;
-        int turn = int.Parse(json.GetField("data").GetField("turn").ToString());
+        int turn = int.Parse(json.GetField("data").GetField("room").GetField("turn").ToString());
+        bool isTurnBack = bool.Parse(json.GetField("data").GetField("turnBack").ToString());
         bool isMyturn = false;
 
         if (data.isFirst && turn == 2 || !data.isFirst && turn == 1) // 자신이 백이고 턴이 2(백) 이거나, 자신이 흑이고 턴이 1(흑) 일 때
             isMyturn = true;
 
-        ingameM.TurnStart(isMyturn, json.GetField("data").GetField("chessboard"));
+        ingameM.TurnStart(isMyturn, json.GetField("data").GetField("room").GetField("chessboard"), isTurnBack);
     }
 
-    private void placeResponse(SocketIOEvent obj) // 턴 종료
-    {
-    }
-
-    private void gameOver(SocketIOEvent obj)
+    private void gameOver(SocketIOEvent obj) // 게임 오버
     {
         ingameM.GameFinish(obj.data);
+    }
+
+    private void proposeExtendTimeLimits(SocketIOEvent obj) // 상대방이 보낸 시간연장 요청 받음
+    {
+        data.isSended_addtime = true;
+        uiM.AddTimeHighlight();
+        uiM.ShowText("상대방이 시간연장을 요청했습니다");
+        uiM.addTime.text = "수락";
+    }
+
+    private void updateTimeLimits(SocketIOEvent obj) // 시간이 연장됨
+    {
+        uiM.AddTimer(30);
+        uiM.ShowText("30초가 연장되었습니다");
+        uiM.addTime.text = "연장됨";
+    }
+
+    private void proposeTurnBack(SocketIOEvent obj) // 상대방이 보낸 무르기 요청 받음
+    {
+        data.isSended_takeback = true;
+        uiM.TakeBackHighlight();
+        uiM.ShowText("상대방이 무르기를 요청했습니다");
+        uiM.takeBack.text = "수락";
     }
 }

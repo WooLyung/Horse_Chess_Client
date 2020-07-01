@@ -13,12 +13,15 @@ public class UIManager : MonoBehaviour
     private bool isTimerActivate = false;
 
     public EffectManager effectM;
+    public ServerManager serverM;
     public InGameManager ingameM;
     public InGameData data;
     public Animator textAnim;
     public Animator sceneAnim;
     public Animator resultAnim;
     public Animator objectAnim;
+    public Animator takebackHighlight;
+    public Animator addtimeHighlight;
     public Text text;
 
     public Image timer;
@@ -101,7 +104,7 @@ public class UIManager : MonoBehaviour
 
         if (data.isMyTurn)
         {
-            if (data.turnCount <= 2)
+            if (data.turnCount2 <= 2)
             {
                 takeBack.text = "불가능";
             }
@@ -121,14 +124,15 @@ public class UIManager : MonoBehaviour
         StartCoroutine("GameFinishCoroutine");
 
         int rate = int.Parse(json.GetField("data").GetField("userData").GetField("rate").ToString());
-        string rateS = (rate > 0) ? "+" + rate : rate + "";
+        int bet = rate - PlayerData.Instance.Rate;
+        string betS = (bet > 0) ? "+" + bet : bet + "";
 
-        PlayerData.Instance.Rate += rate;
+        PlayerData.Instance.Rate = rate;
         PlayerData.Instance.Game++;
 
         resultReason.text = json.GetField("data").GetField("message").ToString();
         resultReason.text = resultReason.text.Substring(1, resultReason.text.Length - 2);
-        resultInfo.text = data.turnCount + "턴 / " + PlayerData.Instance.Rate + "(" + rateS + ")";
+        resultInfo.text = data.turnCount + "턴 / " + PlayerData.Instance.Rate + "(" + betS + ")";
 
         if (rate > 0)
         {
@@ -147,13 +151,15 @@ public class UIManager : MonoBehaviour
         {
             data.isClicked_takeback = true;
 
-            if (data.isMyTurn)
+            if (data.isMyTurn && data.turnCount2 > 2)
             {
-                // 무르기 요청 메세지 보냄
+                serverM.RequestTakeBack();
+                data.isClicked_takeback = true;
             }
             else if (data.isSended_takeback)
             {
-                // 무르기 수락 메세지 보냄
+                serverM.AcceptTakeBack();
+                data.isClicked_takeback = true;
             }
         }
     }
@@ -162,15 +168,15 @@ public class UIManager : MonoBehaviour
     {
         if (!data.isClicked_addtime)
         {
-            data.isClicked_addtime = true;
-
             if (data.isMyTurn)
             {
-                // 시간연장 요청 메세지 보냄
+                serverM.RequestTakeBack();
+                data.isClicked_addtime = true;
             }
             else if (data.isSended_addtime)
             {
-                // 시간연장 수락 메세지 보냄
+                serverM.AcceptAddTime();
+                data.isClicked_addtime = true;
             }
         }
     }
@@ -178,14 +184,40 @@ public class UIManager : MonoBehaviour
     public void Surrender()
     {
         if (ingameM.GameState == InGameManager.GAME_STATE.GAME)
+        {
             ingameM.Surrender();
+        }
+    }
+
+    public void TakeBackHighlight()
+    {
+        StartCoroutine("TakeBackHighlightCoroutine");
+    }
+
+    public void AddTimeHighlight()
+    {
+        StartCoroutine("AddTimeHighlightCoroutine");
+    }
+
+    private IEnumerator TakeBackHighlightCoroutine()
+    {
+        takebackHighlight.SetBool("Play", true);
+        yield return new WaitForSeconds(1);
+        takebackHighlight.SetBool("Play", false);
+    }
+
+    private IEnumerator AddTimeHighlightCoroutine()
+    {
+        addtimeHighlight.SetBool("Play", true);
+        yield return new WaitForSeconds(1);
+        addtimeHighlight.SetBool("Play", false);
     }
 
     private IEnumerator GameFinishCoroutine()
     {
         yield return new WaitForSeconds(0.2f);
         resultAnim.SetInteger("State", 1);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         resultAnim.SetInteger("State", 2);
         sceneAnim.SetBool("Finish", true);
         objectAnim.SetInteger("state", 1);
