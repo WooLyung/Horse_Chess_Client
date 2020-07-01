@@ -43,8 +43,6 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        Debug.Log("이동 가능 위치 : " + count);
-
         if (count == 0)
             return true;
         else

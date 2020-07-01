@@ -63,6 +63,8 @@ public class ServerManager : MonoBehaviour
 
     private void turnStart(SocketIOEvent obj) // 턴 시작
     {
+        Debug.Log("턴 시작 : " + obj.data);
+
         JSONObject json = obj.data;
         int turn = int.Parse(json.GetField("data").GetField("turn").ToString());
         bool isMyturn = false;

@@ -26,6 +26,7 @@ public class InGameData : MonoBehaviour
     private void Awake()
     {
         DataSender sender = GameObject.Find("DataSender").GetComponent<DataSender>();
+
         isFirst = sender.isFirst;
         opponentRating = sender.opponentRating;
         opponentWinRate = sender.opponentWinRate;

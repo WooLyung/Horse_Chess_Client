@@ -26,6 +26,7 @@ public class MachingManager : MonoBehaviour
     private SocketIOComponent socket;
     private float cooltime = 0;
     private bool isMaching = false;
+    private int senderCount = 0;
 
     public STATE State
     {
@@ -79,6 +80,7 @@ public class MachingManager : MonoBehaviour
     private void Maching()
     {
         state_ = STATE.MACHING;
+        senderCount = 0;
 
         text1.SetBool("isLoading", true);
         text2.SetBool("isLoading", true);
@@ -115,6 +117,11 @@ public class MachingManager : MonoBehaviour
 
     private void MatchingSuccess(SocketIOEvent obj)
     {
+        senderCount++;
+
+        if (senderCount >= 2)
+            return;
+
         state_ = STATE.START;
 
         text1.SetBool("isLoading", false);
