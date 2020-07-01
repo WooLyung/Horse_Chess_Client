@@ -157,15 +157,11 @@ public class UIManager : MonoBehaviour
                 {
                     serverM.RequestTakeBack();
                     data.isClicked_takeback = true;
-
-                    Debug.Log("무르기 요청함");
                 }
                 else if (data.isSended_takeback)
                 {
                     serverM.AcceptTakeBack();
                     data.isClicked_takeback = true;
-
-                    Debug.Log("무르기 수락함");
                 }
             }
         }
@@ -181,15 +177,11 @@ public class UIManager : MonoBehaviour
                 {
                     serverM.RequestAddTime();
                     data.isClicked_addtime = true;
-
-                    Debug.Log("시간연장 요청함");
                 }
                 else if (data.isSended_addtime)
                 {
                     serverM.AcceptAddTime();
                     data.isClicked_addtime = true;
-
-                    Debug.Log("시간연장 수락함");
                 }
             }
         }
