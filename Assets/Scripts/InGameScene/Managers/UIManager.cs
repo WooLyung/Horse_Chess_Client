@@ -134,12 +134,12 @@ public class UIManager : MonoBehaviour
         resultReason.text = resultReason.text.Substring(1, resultReason.text.Length - 2);
         resultInfo.text = data.turnCount + "턴 / " + PlayerData.Instance.Rate + "(" + betS + ")";
 
-        if (rate > 0)
+        if (bet > 0)
         {
             result.sprite = win;
             PlayerData.Instance.WinGame++;
         }
-        if (rate < 0)
+        if (bet < 0)
         {
             result.sprite = lose;
         }

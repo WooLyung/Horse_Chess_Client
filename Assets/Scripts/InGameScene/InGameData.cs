@@ -33,6 +33,6 @@ public class InGameData : MonoBehaviour
         opponentWinRate = sender.opponentWinRate;
         opponentName = sender.opponentName;
 
-        GameObject.Destroy(sender);
+        GameObject.Destroy(sender.gameObject);
     }
 }

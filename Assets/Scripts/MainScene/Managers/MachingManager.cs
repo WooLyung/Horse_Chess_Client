@@ -26,7 +26,6 @@ public class MachingManager : MonoBehaviour
     private SocketIOComponent socket;
     private float cooltime = 0;
     private bool isMaching = false;
-    private bool isMatching = false;
 
     public STATE State
     {
@@ -79,8 +78,6 @@ public class MachingManager : MonoBehaviour
 
     private void Maching()
     {
-        Debug.Log("매칭");
-
         state_ = STATE.MACHING;
 
         text1.SetBool("isLoading", true);
@@ -173,9 +170,6 @@ public class MachingManager : MonoBehaviour
 
     private void enterRoomResponse(SocketIOEvent obj)
     {
-        if (isMatching)
-            return;
-
         JSONObject data = obj.data;
         bool success = Boolean.Parse(data.GetField("success").ToString());
 
@@ -183,7 +177,6 @@ public class MachingManager : MonoBehaviour
         if (success)
         {
             isMaching = true;
-            isMatching = true;
             Maching();
         }
         else
