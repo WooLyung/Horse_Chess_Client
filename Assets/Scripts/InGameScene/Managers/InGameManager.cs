@@ -79,10 +79,11 @@ public class InGameManager : MonoBehaviour
             data.turnCount++;
             data.turnCount2++;
         }
-        else
+        else // 무르기 함
         {
             data.turnCount -= 2;
             data.turnCount2 = 1;
+            uiM.ShowText("턴을 물렀습니다.");
         }
 
         data.isClicked_addtime = false;

@@ -4274,12 +4274,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectM: {fileID: 1395330647}
+  serverM: {fileID: 1198085452}
   ingameM: {fileID: 2138614642}
   data: {fileID: 1731100869}
   textAnim: {fileID: 1622224499}
   sceneAnim: {fileID: 1902784851}
   resultAnim: {fileID: 2056159123}
   objectAnim: {fileID: 1922508009}
+  takebackHighlight: {fileID: 691484653}
+  addtimeHighlight: {fileID: 1503633248}
   text: {fileID: 1622224496}
   timer: {fileID: 1461378906}
   timerText: {fileID: 756167682}
@@ -4598,6 +4601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingameM: {fileID: 2138614642}
+  uiM: {fileID: 1132351245}
   data: {fileID: 1731100869}
 --- !u!1 &1200512178
 GameObject:
@@ -5996,7 +6000,6 @@ GameObject:
   - component: {fileID: 1488631912}
   - component: {fileID: 1488631911}
   - component: {fileID: 1488631910}
-  - component: {fileID: 1488631913}
   m_Layer: 5
   m_Name: TakeBack
   m_TagString: Untagged
@@ -6111,24 +6114,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1488631908}
   m_CullTransparentMesh: 0
---- !u!95 &1488631913
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1488631908}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c4ee9bc4319604a4bacc4cc6c8b5759e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1503633246
 GameObject:
   m_ObjectHideFlags: 0
@@ -7107,6 +7092,7 @@ MonoBehaviour:
   isFirst: 1
   isMyTurn: 1
   turnCount: 0
+  turnCount2: 0
   opponentName: SANS
   opponentRating: 0
   opponentWinRate: 0

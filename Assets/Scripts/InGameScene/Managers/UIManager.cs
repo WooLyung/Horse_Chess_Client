@@ -139,7 +139,7 @@ public class UIManager : MonoBehaviour
             result.sprite = win;
             PlayerData.Instance.WinGame++;
         }
-        if (bet < 0)
+        else
         {
             result.sprite = lose;
         }
@@ -147,36 +147,50 @@ public class UIManager : MonoBehaviour
 
     public void TakeBack()
     {
-        if (!data.isClicked_takeback)
+        if (ingameM.GameState == InGameManager.GAME_STATE.GAME)
         {
-            data.isClicked_takeback = true;
+            if (!data.isClicked_takeback)
+            {
+                data.isClicked_takeback = true;
 
-            if (data.isMyTurn && data.turnCount2 > 2)
-            {
-                serverM.RequestTakeBack();
-                data.isClicked_takeback = true;
-            }
-            else if (data.isSended_takeback)
-            {
-                serverM.AcceptTakeBack();
-                data.isClicked_takeback = true;
+                if (data.isMyTurn && data.turnCount2 > 2)
+                {
+                    serverM.RequestTakeBack();
+                    data.isClicked_takeback = true;
+
+                    Debug.Log("무르기 요청함");
+                }
+                else if (data.isSended_takeback)
+                {
+                    serverM.AcceptTakeBack();
+                    data.isClicked_takeback = true;
+
+                    Debug.Log("무르기 수락함");
+                }
             }
         }
     }
 
     public void AddTime()
     {
-        if (!data.isClicked_addtime)
+        if (ingameM.GameState == InGameManager.GAME_STATE.GAME)
         {
-            if (data.isMyTurn)
+            if (!data.isClicked_addtime)
             {
-                serverM.RequestTakeBack();
-                data.isClicked_addtime = true;
-            }
-            else if (data.isSended_addtime)
-            {
-                serverM.AcceptAddTime();
-                data.isClicked_addtime = true;
+                if (data.isMyTurn)
+                {
+                    serverM.RequestAddTime();
+                    data.isClicked_addtime = true;
+
+                    Debug.Log("시간연장 요청함");
+                }
+                else if (data.isSended_addtime)
+                {
+                    serverM.AcceptAddTime();
+                    data.isClicked_addtime = true;
+
+                    Debug.Log("시간연장 수락함");
+                }
             }
         }
     }

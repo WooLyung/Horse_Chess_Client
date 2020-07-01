@@ -80,12 +80,12 @@ public class ServerManager : MonoBehaviour
 
     public void AcceptTakeBack() // 무르기 수락
     {
-        socket.Emit("allowExtendTimeRequest");
+        socket.Emit("allowTurnBackRequest");
     }
 
     public void AcceptAddTime() // 시간연장 수락
     {
-        socket.Emit("allowTurnBackRequest");
+        socket.Emit("allowExtendTimeRequest");
     }
 
     private void turnStart(SocketIOEvent obj) // 턴 시작
