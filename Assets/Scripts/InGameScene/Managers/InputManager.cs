@@ -98,7 +98,7 @@ public class InputManager : MonoBehaviour
                 if (data.map[x, y] == InGameData.TILE.PLAYER) // 플레이어 기물을 클릭했을 경우
                 {
                     selectTile = new Vector2Int(x, y);
-                    CreateCanTiles(x, y);
+                    CreateCanTiles(x, y, new List<Vector2Int>());
                 }
             }
             else // 선택된 타일이 있을 경우
@@ -112,7 +112,7 @@ public class InputManager : MonoBehaviour
                 {
                     DestroyCanTiles();
                     selectTile = new Vector2Int(x, y);
-                    CreateCanTiles(x, y);
+                    CreateCanTiles(x, y, new List<Vector2Int>());
                 }
                 else if (data.map[x, y] == InGameData.TILE.CAN) // 이동 가능 위치를 눌렀을 경우
                 {
@@ -155,9 +155,10 @@ public class InputManager : MonoBehaviour
         ingameM.PieceMove(x1, y1, x2, y2);
     }
 
-    private void CreateCanTiles(int x, int y)
+    private void CreateCanTiles(int x, int y, List<Vector2Int> mines)
     {
-        int count = 0;
+        mines.Add(new Vector2Int(x, y));
+
         foreach (var value in moveDir)
         {
             Vector2Int pos = new Vector2Int(x + value.x, y + value.y);
@@ -166,24 +167,21 @@ public class InputManager : MonoBehaviour
             {
                 if (data.map[pos.x, pos.y] == InGameData.TILE.NONE) // 아무것도 없는 타일일 경우
                 {
-                    count++;
                     CreateCanTileObject(pos.x, pos.y);
                 }
             }
         }
 
-        if (count >= 1) // 하나라도 추가됐을 경우
+        foreach (var value in moveDir)
         {
-            foreach (var value in moveDir)
-            {
-                Vector2Int pos = new Vector2Int(x + value.x, y + value.y);
+            Vector2Int pos = new Vector2Int(x + value.x, y + value.y);
 
-                if (pos.x <= 8 && pos.x >= 1 && pos.y <= 8 && pos.y >= 1) // 맵 안일 경우
+            if (pos.x <= 8 && pos.x >= 1 && pos.y <= 8 && pos.y >= 1) // 맵 안일 경우
+            {
+                if (data.map[pos.x, pos.y] == InGameData.TILE.PLAYER) // 자신의 기물일 경우
                 {
-                    if (data.map[pos.x, pos.y] == InGameData.TILE.PLAYER) // 자신의 기물일 경우
-                    {
-                        CreateCanTiles(pos.x, pos.y);
-                    }
+                    if (!mines.Contains(pos)) // 파악된 타일이 아닐 경우
+                        CreateCanTiles(pos.x, pos.y, mines);
                 }
             }
         }
