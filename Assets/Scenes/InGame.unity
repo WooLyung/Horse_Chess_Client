@@ -4233,6 +4233,34 @@ Transform:
   m_Father: {fileID: 132159861}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1072685292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1072685293}
+  m_Layer: 0
+  m_Name: Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1072685293
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1072685292}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2028021195}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1132351243
 GameObject:
   m_ObjectHideFlags: 0
@@ -5751,6 +5779,8 @@ MonoBehaviour:
   addTimeEffect: {fileID: 2021597375}
   buttonHighlight_takeback: {fileID: 691484653}
   buttonHighlight_addtime: {fileID: 1503633248}
+  effects: {fileID: 1072685293}
+  dust: {fileID: 1751604355206472, guid: 78b2a2e21de2de34aa07ba45877dd038, type: 2}
 --- !u!1 &1403924126
 GameObject:
   m_ObjectHideFlags: 0
@@ -8380,6 +8410,7 @@ Transform:
   m_Children:
   - {fileID: 1731100868}
   - {fileID: 401169420}
+  - {fileID: 1072685293}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8887,6 +8918,7 @@ MonoBehaviour:
   uiM: {fileID: 1132351245}
   serverM: {fileID: 1198085452}
   inputM: {fileID: 1565738334}
+  effectM: {fileID: 1395330647}
   data: {fileID: 1731100869}
   whoTurn: {fileID: 1168049869}
   screen: {fileID: 925485919}

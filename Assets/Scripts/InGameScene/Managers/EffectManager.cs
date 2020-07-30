@@ -10,6 +10,9 @@ public class EffectManager : MonoBehaviour
     public Animator buttonHighlight_takeback;
     public Animator buttonHighlight_addtime;
 
+    public Transform effects;
+    public GameObject dust;
+
     public void AddTimeEffect()
     {
         if (setting.Effect)
@@ -31,6 +34,19 @@ public class EffectManager : MonoBehaviour
         if (setting.Effect)
         {
             StartCoroutine("ButtonHightLightPlay_addtime");
+        }
+    }
+
+    public void PieceMoveEffect(Vector2Int pos)
+    {
+        if (setting.Effect)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var newEffect = GameObject.Instantiate(dust, effects);
+                newEffect.transform.position = new Vector3(pos.x - 4.5f, pos.y - 4.5f);
+                newEffect.name = "dust";
+            }
         }
     }
 

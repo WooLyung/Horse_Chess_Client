@@ -14,6 +14,7 @@ public class InGameManager : MonoBehaviour
     public UIManager uiM;
     public ServerManager serverM;
     public InputManager inputM;
+    public EffectManager effectM;
     public InGameData data;
 
     public Animator whoTurn;
@@ -135,6 +136,17 @@ public class InGameManager : MonoBehaviour
 
     private void CreatePieces(JSONObject map)
     {
+        if (data.turnCount > 1)
+        {
+            for (int x = 1; x <= 8; x++)
+            {
+                for (int y = 1; y <= 8; y++)
+                {
+                    data.preMap[x, y] = data.map[x, y];
+                }
+            }
+        }
+
         for (int x = 0; x < 8; x++)
         {
             for (int y = 0; y < 8; y++)
@@ -177,6 +189,14 @@ public class InGameManager : MonoBehaviour
                 if (newObj != null)
                 {
                     newObj.transform.localPosition = new Vector3(pos.x, pos.y);
+                }
+
+                if (data.preMap[pos.x, pos.y] != data.map[pos.x, pos.y]
+                    && data.turnCount > 1) // 기물이 달라진 타일인 경우
+                {
+                    if (data.map[pos.x, pos.y] == InGameData.TILE.PLAYER
+                        || data.map[pos.x, pos.y] == InGameData.TILE.OPPONENT)
+                        effectM.PieceMoveEffect(pos);
                 }
             }
         }
