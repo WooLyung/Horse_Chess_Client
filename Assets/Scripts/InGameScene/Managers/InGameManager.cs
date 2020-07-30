@@ -19,6 +19,7 @@ public class InGameManager : MonoBehaviour
 
     public Animator whoTurn;
     public Animator screen;
+    public Sprite preCant;
 
     public GameObject CanMoveParent;
     public GameObject CantMoveParent;
@@ -197,6 +198,9 @@ public class InGameManager : MonoBehaviour
                     if (data.map[pos.x, pos.y] == InGameData.TILE.PLAYER
                         || data.map[pos.x, pos.y] == InGameData.TILE.OPPONENT)
                         effectM.PieceMoveEffect(pos);
+
+                    if (data.map[pos.x, pos.y] == InGameData.TILE.CANT)
+                        newObj.GetComponent<SpriteRenderer>().sprite = preCant;
                 }
             }
         }

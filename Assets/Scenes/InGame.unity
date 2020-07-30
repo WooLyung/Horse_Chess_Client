@@ -8924,6 +8924,7 @@ MonoBehaviour:
   data: {fileID: 1731100869}
   whoTurn: {fileID: 1168049869}
   screen: {fileID: 925485919}
+  preCant: {fileID: 21300000, guid: 06beefe0675c1834598441ff658b3d5a, type: 3}
   CanMoveParent: {fileID: 554581065}
   CantMoveParent: {fileID: 1306191004}
   blackPieceParent: {fileID: 43651003}
