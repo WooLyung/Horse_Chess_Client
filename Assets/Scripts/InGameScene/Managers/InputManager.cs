@@ -166,6 +166,11 @@ public class InputManager : MonoBehaviour
 
     private void CreateCanTiles(int x, int y, List<Vector2Int> mines)
     {
+        if (mines.Count == 0) // 비어있는 것일 경우
+        {
+            CreateSelectTileObject(x, y);
+        }
+
         mines.Add(new Vector2Int(x, y));
 
         foreach (var value in moveDir)
@@ -201,5 +206,19 @@ public class InputManager : MonoBehaviour
         GameObject newCanMove = GameObject.Instantiate(canMoveTile, CanMoveParent.transform);
         newCanMove.transform.localPosition = new Vector3(x, y);
         data.map[x, y] = InGameData.TILE.CAN;
+    }
+
+    private void CreateSelectTileObject(int x, int y)
+    {
+        GameObject newCanMove = GameObject.Instantiate(canMoveTile, CanMoveParent.transform);
+        newCanMove.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+        var renderer = newCanMove.GetComponent<SpriteRenderer>();
+
+        if (x % 2 == y % 2)
+            renderer.color = new Color(1, 0, 0, 0.35f);
+        else
+            renderer.color = new Color(1, 1, 1, 0.35f);
+
+        newCanMove.transform.localPosition = new Vector3(x, y);
     }
 }

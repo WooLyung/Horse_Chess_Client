@@ -27,7 +27,7 @@ public class DustEffect : MonoBehaviour
         }
         else
         {
-            spriteRenderer.color = new Color(0.3f, 0.3f, 0.3f, (1 - time) * 0.25f);
+            spriteRenderer.color = new Color(0.3f, 0.3f, 0.3f, (1 - time) * 0.15f);
             nowSpeed = speed * (1 - time);
 
             transform.position += new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * nowSpeed * Time.deltaTime;
