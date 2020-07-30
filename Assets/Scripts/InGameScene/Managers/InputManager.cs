@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     public InGameManager ingameM;
+    public EffectManager effectM;
     public InGameData data;
     public GameObject CanMoveParent;
     public GameObject canMoveTile;
@@ -88,6 +89,7 @@ public class InputManager : MonoBehaviour
             if (y <= 4 && data.map[x, y] == InGameData.TILE.NONE) // 배치 가능한 위치를 눌렀을 때
             {
                 ingameM.Setting(x, y);
+                return;
             }
         }
         else if (ingameM.GameState == InGameManager.GAME_STATE.GAME
@@ -99,6 +101,7 @@ public class InputManager : MonoBehaviour
                 {
                     selectTile = new Vector2Int(x, y);
                     CreateCanTiles(x, y, new List<Vector2Int>());
+                    return;
                 }
             }
             else // 선택된 타일이 있을 경우
@@ -107,25 +110,31 @@ public class InputManager : MonoBehaviour
                 {
                     DestroyCanTiles();
                     selectTile = new Vector2Int(0, 0);
+                    return;
                 }
                 else if (data.map[x, y] == InGameData.TILE.PLAYER) // 다른 플레이어 기물을 클릭했을 경우
                 {
                     DestroyCanTiles();
                     selectTile = new Vector2Int(x, y);
                     CreateCanTiles(x, y, new List<Vector2Int>());
+                    return;
                 }
                 else if (data.map[x, y] == InGameData.TILE.CAN) // 이동 가능 위치를 눌렀을 경우
                 {
                     DestroyCanTiles();
                     PieceMove(selectTile.x, selectTile.y, x, y);
+                    return;
                 }
                 else // 이동 불가능 위치를 눌렀을 경우
                 {
                     DestroyCanTiles();
                     selectTile = new Vector2Int(0, 0);
+                    return;
                 }
             }
         }
+
+        effectM.BoardClickEffect(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
     private void DestroyCanTiles()

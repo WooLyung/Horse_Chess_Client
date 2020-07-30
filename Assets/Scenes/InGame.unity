@@ -5781,6 +5781,7 @@ MonoBehaviour:
   buttonHighlight_addtime: {fileID: 1503633248}
   effects: {fileID: 1072685293}
   dust: {fileID: 1751604355206472, guid: 78b2a2e21de2de34aa07ba45877dd038, type: 2}
+  smallDust: {fileID: 1522283649402376, guid: fb4bc7d0565681145bb54e5b8410662e, type: 2}
 --- !u!1 &1403924126
 GameObject:
   m_ObjectHideFlags: 0
@@ -6498,6 +6499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingameM: {fileID: 2138614642}
+  effectM: {fileID: 1395330647}
   data: {fileID: 1731100869}
   CanMoveParent: {fileID: 554581065}
   canMoveTile: {fileID: 1214531455661000, guid: d0f9da16846d3e048ab384fa44f8cbe4,

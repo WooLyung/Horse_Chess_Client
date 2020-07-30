@@ -23,7 +23,7 @@ public class DustEffect : MonoBehaviour
 
         if (time >= 1)
         {
-            GameObject.Destroy(this);
+            GameObject.Destroy(gameObject);
         }
         else
         {

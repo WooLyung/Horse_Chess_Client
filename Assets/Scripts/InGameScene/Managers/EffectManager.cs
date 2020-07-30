@@ -12,6 +12,7 @@ public class EffectManager : MonoBehaviour
 
     public Transform effects;
     public GameObject dust;
+    public GameObject smallDust;
 
     public void AddTimeEffect()
     {
@@ -46,6 +47,19 @@ public class EffectManager : MonoBehaviour
                 var newEffect = GameObject.Instantiate(dust, effects);
                 newEffect.transform.position = new Vector3(pos.x - 4.5f, pos.y - 4.5f);
                 newEffect.name = "dust";
+            }
+        }
+    }
+
+    public void BoardClickEffect(Vector3 pos)
+    {
+        if (setting.Effect)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var newEffect = GameObject.Instantiate(smallDust, effects);
+                newEffect.transform.position = new Vector3(pos.x, pos.y);
+                newEffect.name = "smallDust";
             }
         }
     }
