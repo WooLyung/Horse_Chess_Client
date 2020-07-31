@@ -5782,6 +5782,7 @@ MonoBehaviour:
   effects: {fileID: 1072685293}
   dust: {fileID: 1751604355206472, guid: 78b2a2e21de2de34aa07ba45877dd038, type: 2}
   smallDust: {fileID: 1522283649402376, guid: fb4bc7d0565681145bb54e5b8410662e, type: 2}
+  firework: {fileID: 1607884715735562, guid: f33c69d226dc8a740be35ab0fd0c2c79, type: 2}
 --- !u!1 &1403924126
 GameObject:
   m_ObjectHideFlags: 0

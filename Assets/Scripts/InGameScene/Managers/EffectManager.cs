@@ -13,6 +13,27 @@ public class EffectManager : MonoBehaviour
     public Transform effects;
     public GameObject dust;
     public GameObject smallDust;
+    public GameObject firework;
+
+    public void WinEffect()
+    {
+        if (setting.Effect)
+        {
+            for (int i = 0; i < 25; i++)
+            {
+                var particle = GameObject.Instantiate(firework, effects);
+                particle.transform.position = new Vector3(-6, 0);
+                particle.GetComponent<FireworkParticle>().isLeft = true;
+            }
+
+            for (int i = 0; i < 25; i++)
+            {
+                var particle = GameObject.Instantiate(firework, effects);
+                particle.transform.position = new Vector3(6, 0);
+                particle.GetComponent<FireworkParticle>().isLeft = false;
+            }
+        }
+    }
 
     public void AddTimeEffect()
     {

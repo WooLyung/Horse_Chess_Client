@@ -138,6 +138,7 @@ public class UIManager : MonoBehaviour
         {
             result.sprite = win;
             PlayerData.Instance.WinGame++;
+            effectM.WinEffect();
         }
         else
         {
