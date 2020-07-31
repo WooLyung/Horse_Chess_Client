@@ -228,11 +228,12 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         resultAnim.SetInteger("State", 1);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
+        bgmM.SetState(BGMManager.BGMSTATE.FINISH);
+        yield return new WaitForSeconds(1);
         resultAnim.SetInteger("State", 2);
         sceneAnim.SetBool("Finish", true);
         objectAnim.SetInteger("state", 1);
-        bgmM.SetState(BGMManager.BGMSTATE.FINISH);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(2);
     }

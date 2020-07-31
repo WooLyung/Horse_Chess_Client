@@ -30,7 +30,7 @@ public class MainSoundManager : MonoBehaviour
         if (state == BGMSTATE.START)
         {
             time += Time.deltaTime;
-            audioSource.volume = settingM.BGM * settingM.MasterVolume * time;
+            audioSource.volume = settingM.BGM * settingM.MasterVolume * time * 0.5f;
 
             if (time >= 1)
             {
@@ -39,7 +39,7 @@ public class MainSoundManager : MonoBehaviour
         }
         else if (state == BGMSTATE.PLAY)
         {
-            audioSource.volume = settingM.BGM * settingM.MasterVolume;
+            audioSource.volume = settingM.BGM * settingM.MasterVolume * 0.5f;
             time = 1;
         }
         else if (state == BGMSTATE.FINISH)
@@ -50,7 +50,7 @@ public class MainSoundManager : MonoBehaviour
             }
 
             time -= Time.deltaTime;
-            audioSource.volume = settingM.BGM * settingM.MasterVolume * time;
+            audioSource.volume = settingM.BGM * settingM.MasterVolume * time * 0.5f;
         }
     }
 }

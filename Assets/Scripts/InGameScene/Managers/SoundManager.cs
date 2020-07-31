@@ -12,28 +12,23 @@ public class SoundManager : MonoBehaviour
     public AudioClip touch;
     public AudioClip place;
 
-    private void Start()
-    {
-        audioSource.volume = settingM.SoundEffect * settingM.MasterVolume;
-    }
-
     public void PlaySound(string audioName)
     {
         if (audioName == "win")
         {
-            audioSource.PlayOneShot(win);
+            audioSource.PlayOneShot(win, settingM.SoundEffect * settingM.MasterVolume);
         }
         else if (audioName == "lose")
         {
-            audioSource.PlayOneShot(lose);
+            audioSource.PlayOneShot(lose, settingM.SoundEffect * settingM.MasterVolume);
         }
         else if (audioName == "touch")
         {
-            audioSource.PlayOneShot(touch);
+            audioSource.PlayOneShot(touch, settingM.SoundEffect * settingM.MasterVolume * 0.7f);
         }
         else if (audioName == "place")
         {
-            audioSource.PlayOneShot(place);
+            audioSource.PlayOneShot(place, settingM.SoundEffect * settingM.MasterVolume);
         }
     }
 }
