@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     public EffectManager effectM;
     public ServerManager serverM;
     public InGameManager ingameM;
+    public SoundManager soundM;
+    public BGMManager bgmM;
     public InGameData data;
     public Animator textAnim;
     public Animator sceneAnim;
@@ -139,10 +141,12 @@ public class UIManager : MonoBehaviour
             result.sprite = win;
             PlayerData.Instance.WinGame++;
             effectM.WinEffect();
+            soundM.PlaySound("win");
         }
         else
         {
             result.sprite = lose;
+            soundM.PlaySound("lose");
         }
     }
 
@@ -228,6 +232,7 @@ public class UIManager : MonoBehaviour
         resultAnim.SetInteger("State", 2);
         sceneAnim.SetBool("Finish", true);
         objectAnim.SetInteger("state", 1);
+        bgmM.SetState(BGMManager.BGMSTATE.FINISH);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(2);
     }

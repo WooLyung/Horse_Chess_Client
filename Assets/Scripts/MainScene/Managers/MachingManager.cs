@@ -13,6 +13,8 @@ public class MachingManager : MonoBehaviour
         NONE, MACHING, START
     }
 
+    public MainSoundManager soundM;
+
     public Animator text1;
     public Animator text2;
     public Animator loading1;
@@ -164,6 +166,7 @@ public class MachingManager : MonoBehaviour
 
     IEnumerator ChangeScene()
     {
+        soundM.SetState(MainSoundManager.BGMSTATE.FINISH);
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(3);
     }

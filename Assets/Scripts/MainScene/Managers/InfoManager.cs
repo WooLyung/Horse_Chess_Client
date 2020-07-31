@@ -9,6 +9,7 @@ public class InfoManager : MonoBehaviour
 {
     public Animator animator;
     public MachingManager machingManager;
+    public MainSoundManager soundM;
 
     public Text nickname;
     public Text ranking;
@@ -71,12 +72,14 @@ public class InfoManager : MonoBehaviour
 
     IEnumerator ChangeTutorial()
     {
+        soundM.SetState(MainSoundManager.BGMSTATE.FINISH);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(4);
     }
 
     IEnumerator ChangeTitle()
     {
+        soundM.SetState(MainSoundManager.BGMSTATE.FINISH);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(0);
     }

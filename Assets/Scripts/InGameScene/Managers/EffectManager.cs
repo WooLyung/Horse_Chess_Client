@@ -5,6 +5,7 @@ using UnityEngine;
 public class EffectManager : MonoBehaviour
 {
     public SettingManager setting;
+    public SoundManager soundM;
 
     public Animator addTimeEffect;
     public Animator buttonHighlight_takeback;
@@ -61,6 +62,8 @@ public class EffectManager : MonoBehaviour
 
     public void PieceMoveEffect(Vector2Int pos)
     {
+        soundM.PlaySound("place");
+
         if (setting.Effect)
         {
             for (int i = 0; i < 10; i++)
@@ -74,6 +77,8 @@ public class EffectManager : MonoBehaviour
 
     public void BoardClickEffect(Vector3 pos)
     {
+        soundM.PlaySound("touch");
+
         if (setting.Effect)
         {
             for (int i = 0; i < 5; i++)
