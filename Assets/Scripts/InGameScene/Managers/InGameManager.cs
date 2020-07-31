@@ -19,7 +19,7 @@ public class InGameManager : MonoBehaviour
 
     public Animator whoTurn;
     public Animator screen;
-    public Sprite preCant;
+    public Sprite screen2;
 
     public GameObject CanMoveParent;
     public GameObject CantMoveParent;
@@ -28,6 +28,7 @@ public class InGameManager : MonoBehaviour
     public GameObject whitePiece;
     public GameObject blackPiece;
     public GameObject cantMoveTile;
+    public GameObject movedTile;
 
     public GAME_STATE GameState
     {
@@ -40,6 +41,8 @@ public class InGameManager : MonoBehaviour
     private void Start()
     {
         uiM.StartTimer(120);
+        if (data.isFirst)
+            screen.gameObject.GetComponent<SpriteRenderer>().sprite = screen2;
     }
 
     public void Setting(int x, int y)
@@ -197,10 +200,19 @@ public class InGameManager : MonoBehaviour
                 {
                     if (data.map[pos.x, pos.y] == InGameData.TILE.PLAYER
                         || data.map[pos.x, pos.y] == InGameData.TILE.OPPONENT)
+                    {
                         effectM.PieceMoveEffect(pos);
+                        var newObj2 = GameObject.Instantiate(movedTile, CantMoveParent.transform);
+                        newObj2.name = "movedTile";
+                        newObj2.transform.localPosition = new Vector3(pos.x, pos.y);
+                    }
 
                     if (data.map[pos.x, pos.y] == InGameData.TILE.CANT)
-                        newObj.GetComponent<SpriteRenderer>().sprite = preCant;
+                    {
+                        var newObj2 = GameObject.Instantiate(movedTile, CantMoveParent.transform);
+                        newObj2.name = "movedTile";
+                        newObj2.transform.localPosition = new Vector3(pos.x, pos.y);
+                    }
                 }
             }
         }

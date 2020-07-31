@@ -3482,7 +3482,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 8.014085, y: 4}
+  m_Size: {x: 5.68, y: 2.84}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -8924,7 +8924,7 @@ MonoBehaviour:
   data: {fileID: 1731100869}
   whoTurn: {fileID: 1168049869}
   screen: {fileID: 925485919}
-  preCant: {fileID: 21300000, guid: 06beefe0675c1834598441ff658b3d5a, type: 3}
+  screen2: {fileID: 21300000, guid: ab69ae4fda0280c479080880de5e69d2, type: 3}
   CanMoveParent: {fileID: 554581065}
   CantMoveParent: {fileID: 1306191004}
   blackPieceParent: {fileID: 43651003}
@@ -8933,3 +8933,4 @@ MonoBehaviour:
   blackPiece: {fileID: 1794266644504802, guid: 601b7fc834e0b7848bb1f0d4c1f928e6, type: 2}
   cantMoveTile: {fileID: 1442253591949160, guid: fb7bbf33d0d6f544fb93ca20fff70c16,
     type: 2}
+  movedTile: {fileID: 1887390930986054, guid: 94d6e5c9e53cc3f48b8fb2e233c7b983, type: 2}
