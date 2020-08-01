@@ -13,6 +13,11 @@ public class MachingManager : MonoBehaviour
         NONE, MACHING, START
     }
 
+    public enum GAME
+    {
+        RANK, NORANK, FRIENDSHIP
+    }
+
     public MainSoundManager soundM;
 
     public Animator text1;
@@ -20,10 +25,13 @@ public class MachingManager : MonoBehaviour
     public Animator loading1;
     public Animator loading2;
     public Animator canvas;
+    public Animator next;
+    public Animator pre;
     public Text message;
     public Text button;
     public DataSender sender;
 
+    private GAME game = GAME.RANK;
     private STATE state_;
     private SocketIOComponent socket;
     private float cooltime = 0;
@@ -52,6 +60,43 @@ public class MachingManager : MonoBehaviour
         {
             cooltime -= Time.deltaTime;
             if (cooltime < 0) cooltime = 0;
+        }
+    }
+
+    public void SetSelectedGame(int dir)
+    {
+        if (State == STATE.NONE)
+        {
+            if (dir == 1)
+            {
+                if (game == GAME.RANK)
+                    game = GAME.NORANK;
+                else if(game == GAME.NORANK)
+                    game = GAME.FRIENDSHIP;
+                else if(game == GAME.FRIENDSHIP)
+                    game = GAME.RANK;
+            }
+            else
+            {
+                if (game == GAME.NORANK)
+                    game = GAME.RANK;
+                else if (game == GAME.FRIENDSHIP)
+                    game = GAME.NORANK;
+                else if (game == GAME.RANK)
+                    game = GAME.FRIENDSHIP;
+            }
+
+            SetButtonText();
+
+            if (game == GAME.RANK)
+            {
+            }
+            else if (game == GAME.NORANK)
+            {
+            }
+            else if (game == GAME.FRIENDSHIP)
+            {
+            }
         }
     }
 
@@ -86,6 +131,8 @@ public class MachingManager : MonoBehaviour
         text2.SetBool("isLoading", true);
         loading1.SetBool("isLoading", true);
         loading2.SetBool("isLoading", true);
+        next.SetBool("isOn", false);
+        pre.SetBool("isOn", false);
         button.text = "매칭 취소";
     }
 
@@ -97,7 +144,9 @@ public class MachingManager : MonoBehaviour
         text2.SetBool("isLoading", false);
         loading1.SetBool("isLoading", false);
         loading2.SetBool("isLoading", false);
-        button.text = "게임 시작";
+        next.SetBool("isOn", true);
+        pre.SetBool("isOn", true);
+        SetButtonText();
     }
 
     private void MachingFail(string err)
@@ -110,9 +159,25 @@ public class MachingManager : MonoBehaviour
         loading2.SetBool("isLoading", false);
         canvas.SetBool("Text", true);
         message.text = err;
-        button.text = "게임 시작";
+        SetButtonText();
 
         StartCoroutine("MachingFailEnd");
+    }
+
+    private void SetButtonText()
+    {
+        if (game == GAME.RANK)
+        {
+            button.text = "등급전 시작";
+        }
+        else if (game == GAME.NORANK)
+        {
+            button.text = "일반전 시작";
+        }
+        else if (game == GAME.FRIENDSHIP)
+        {
+            button.text = "친선전 시작";
+        }
     }
 
     private void MatchingSuccess(SocketIOEvent obj)
