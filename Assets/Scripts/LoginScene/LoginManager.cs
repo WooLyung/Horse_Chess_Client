@@ -217,7 +217,7 @@ public class LoginManager : MonoBehaviour
 
     IEnumerator AutoLogin()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         String id = PlayerPrefs.GetString("KeepLogin_ID");
         String pwd = PlayerPrefs.GetString("KeepLogin_pwd");
