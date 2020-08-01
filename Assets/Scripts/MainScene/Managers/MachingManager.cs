@@ -31,6 +31,11 @@ public class MachingManager : MonoBehaviour
     public Text button;
     public DataSender sender;
 
+    public Image selectedGame;
+    public Sprite spr_rank;
+    public Sprite spr_norank;
+    public Sprite spr_friendship;
+
     private GAME game = GAME.RANK;
     private STATE state_;
     private SocketIOComponent socket;
@@ -90,12 +95,15 @@ public class MachingManager : MonoBehaviour
 
             if (game == GAME.RANK)
             {
+                selectedGame.sprite = spr_rank;
             }
             else if (game == GAME.NORANK)
             {
+                selectedGame.sprite = spr_norank;
             }
             else if (game == GAME.FRIENDSHIP)
             {
+                selectedGame.sprite = spr_friendship;
             }
         }
     }
