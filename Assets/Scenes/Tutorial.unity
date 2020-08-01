@@ -6042,11 +6042,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmM: {fileID: 814505917}
   soundM: {fileID: 997218316}
+  setting: {fileID: 1226671374}
   sceneAnim: {fileID: 1575485719}
   objectAnim: {fileID: 1023465359}
   textAnim: {fileID: 392014029}
   screenAnim: {fileID: 1152510244}
   text: {fileID: 392014032}
+  dust: {fileID: 1751604355206472, guid: 78b2a2e21de2de34aa07ba45877dd038, type: 2}
+  smallDust: {fileID: 1522283649402376, guid: fb4bc7d0565681145bb54e5b8410662e, type: 2}
   playerPO:
   - {fileID: 1630946671}
   - {fileID: 1774907457}
@@ -6061,6 +6064,7 @@ MonoBehaviour:
   canMoveTile: {fileID: 922790401}
   cantMove: {fileID: 1442253591949160, guid: fb7bbf33d0d6f544fb93ca20fff70c16, type: 2}
   cantMoveTile: {fileID: 215161170}
+  movedTile: {fileID: 1887390930986054, guid: 94d6e5c9e53cc3f48b8fb2e233c7b983, type: 2}
 --- !u!1001 &1755253889
 Prefab:
   m_ObjectHideFlags: 0

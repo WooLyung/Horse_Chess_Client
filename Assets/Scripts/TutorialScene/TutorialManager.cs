@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -13,12 +14,15 @@ public class TutorialManager : MonoBehaviour
 
     public BGMManager bgmM;
     public SoundManager soundM;
+    public SettingManager setting;
 
     public Animator sceneAnim;
     public Animator objectAnim;
     public Animator textAnim;
     public Animator screenAnim;
     public Text text;
+    public GameObject dust;
+    public GameObject smallDust;
 
     public GameObject[] playerPO = new GameObject[4];
     public GameObject[] opponentPO = new GameObject[4];
@@ -26,6 +30,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject canMoveTile;
     public GameObject cantMove;
     public GameObject cantMoveTile;
+    public GameObject movedTile;
 
     private int selectPiece = -1;
     private int clearedPiece = 0;
@@ -95,8 +100,6 @@ public class TutorialManager : MonoBehaviour
 
     private void ClearPiece(int x, int y)
     {
-        soundM.PlaySound("place");
-
         if (y <= 4)
         {
             bool canClear = true;
@@ -108,11 +111,17 @@ public class TutorialManager : MonoBehaviour
 
             if (canClear)
             {
+                soundM.PlaySound("place");
+
                 playerP[clearedPiece] = new Vector2Int(x, y);
                 playerPO[clearedPiece].transform.localPosition = new Vector3(x, y);
                 clearedPiece++;
 
                 tiles[x, y] = TILE.WHITE;
+            }
+            else
+            {
+                BoardTouch();
             }
         }
 
@@ -170,32 +179,19 @@ public class TutorialManager : MonoBehaviour
                     DestroyCanMoveTile();
                     return;
                 }
-                DestroyCanMoveTile();
-            }
-            else if (tiles[x, y] == TILE.CAN)
-            {
-                soundM.PlaySound("place");
-
-                Vector2Int pos = new Vector2Int((int)playerPO[selectPiece].transform.localPosition.x, (int)playerPO[selectPiece].transform.localPosition.y);
-
-                GameObject newCantMove = GameObject.Instantiate(cantMove, cantMoveTile.transform);
-                newCantMove.transform.localPosition = new Vector3(pos.x, pos.y);
-                cantMoveTiles.Add(newCantMove);
-                tiles[pos.x, pos.y] = TILE.CANT;
-
-                playerPO[selectPiece].transform.localPosition = new Vector3(x, y);
 
                 DestroyCanMoveTile();
-                step = 4;
 
-                StartCoroutine("FinalMessage");
-            }
-        }
+                GameObject newCanMove2 = GameObject.Instantiate(canMove, canMoveTile.transform);
+                newCanMove2.transform.localPosition = new Vector3(x, y);
+                canMoveTiles.Add(newCanMove2);
+                var renderer = newCanMove2.GetComponent<SpriteRenderer>();
 
-        if (selectPiece == -1) // 선택된 기물 없음
-        {
-            if (tiles[x, y] == TILE.WHITE) // 선택한 타일이 플레이어가 있는 타일
-            {
+                if (x % 2 == y % 2)
+                    renderer.color = new Color(1, 0, 0, 0.35f);
+                else
+                    renderer.color = new Color(1, 1, 1, 0.35f);
+
                 bool[] myP = { false, false, false, false };
                 int myP_count = 1;
                 int myP_pre_count = 0;
@@ -254,6 +250,117 @@ public class TutorialManager : MonoBehaviour
                     }
                 }
             }
+            else if (tiles[x, y] == TILE.CAN)
+            {
+                soundM.PlaySound("place");
+
+                if (setting.Effect)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        var newEffect = GameObject.Instantiate(dust);
+                        newEffect.transform.position = new Vector3(x - 4.5f, y - 4.5f);
+                        newEffect.name = "dust";
+                    }
+                }
+
+                Vector2Int pos = new Vector2Int((int)playerPO[selectPiece].transform.localPosition.x, (int)playerPO[selectPiece].transform.localPosition.y);
+
+                GameObject newCantMove = GameObject.Instantiate(cantMove, cantMoveTile.transform);
+                newCantMove.transform.localPosition = new Vector3(pos.x, pos.y);
+                cantMoveTiles.Add(newCantMove);
+                tiles[pos.x, pos.y] = TILE.CANT;
+
+                GameObject.Instantiate(movedTile).transform.position = playerPO[selectPiece].transform.position;
+                playerPO[selectPiece].transform.localPosition = new Vector3(x, y);
+                GameObject.Instantiate(movedTile).transform.position = playerPO[selectPiece].transform.position;
+
+                DestroyCanMoveTile();
+                step = 4;
+
+                StartCoroutine("FinalMessage");
+            }
+            else
+            {
+                BoardTouch();
+            }
+        }
+        else // 선택된 기물 없음
+        {
+            if (tiles[x, y] == TILE.WHITE) // 선택한 타일이 플레이어가 있는 타일
+            {
+                GameObject newCanMove2 = GameObject.Instantiate(canMove, canMoveTile.transform);
+                newCanMove2.transform.localPosition = new Vector3(x, y);
+                canMoveTiles.Add(newCanMove2);
+                var renderer = newCanMove2.GetComponent<SpriteRenderer>();
+
+                if (x % 2 == y % 2)
+                    renderer.color = new Color(1, 0, 0, 0.35f);
+                else
+                    renderer.color = new Color(1, 1, 1, 0.35f);
+
+                bool[] myP = { false, false, false, false };
+                int myP_count = 1;
+                int myP_pre_count = 0;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if (playerP[i].x == x && playerP[i].y == y)
+                    {
+                        selectPiece = i; // 기물 선택
+                        myP[i] = true;
+                    }
+                }
+
+                // 이동 가능 위치 판정
+                while (myP_count != myP_pre_count)
+                {
+                    myP_count = myP_pre_count;
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (myP[i])
+                        {
+                            foreach (var moved in moveDir)
+                            {
+                                Vector2Int pos = playerP[i] + moved;
+
+                                if (pos.x <= 8 && pos.x >= 1 && pos.y <= 8 && pos.y >= 1)
+                                {
+                                    if (tiles[pos.x, pos.y] == TILE.NONE)
+                                    {
+                                        GameObject newCanMove = GameObject.Instantiate(canMove, canMoveTile.transform);
+                                        newCanMove.transform.localPosition = new Vector3(pos.x, pos.y);
+                                        canMoveTiles.Add(newCanMove);
+                                        tiles[pos.x, pos.y] = TILE.CAN;
+                                    }
+                                    else
+                                    {
+                                        if (tiles[pos.x, pos.y] == TILE.WHITE)
+                                        {
+                                            for (int j = 0; j < 4; j++)
+                                            {
+                                                if (playerP[j] == pos)
+                                                {
+                                                    if (myP[j] == false)
+                                                    {
+                                                        myP[j] = true;
+                                                        myP_count++;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                BoardTouch();
+            }
         }
     }    
 
@@ -271,10 +378,29 @@ public class TutorialManager : MonoBehaviour
                     ClearPiece(x, y);
                 else if (step == 3)
                     TileClickGame(x, y);
+                else
+                    BoardTouch();
             }
             else // 체커판 안을 누르지 않음
             {
                 OutClick();
+            }
+        }
+    }
+
+    private void BoardTouch()
+    {
+        soundM.PlaySound("touch");
+
+        if (setting.Effect)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var newEffect = GameObject.Instantiate(smallDust);
+                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                pos.z = 0;
+                newEffect.transform.position = pos;
+                newEffect.name = "smallDust";
             }
         }
     }
