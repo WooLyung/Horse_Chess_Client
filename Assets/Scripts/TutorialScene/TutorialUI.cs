@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class TutorialUI : MonoBehaviour
 {
+    public BGMManager bgmM;
+
     public Animator animator_ui;
     public Animator animator_obj;
     public Text nickname;
     public Text info;
 
-	private void Start ()
+	private void Start()
     {
         if (PlayerData.Instance != null)
         {
@@ -36,6 +38,7 @@ public class TutorialUI : MonoBehaviour
 
     IEnumerator ChangeScene()
     {
+        bgmM.SetState(BGMManager.BGMSTATE.FINISH);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(2);
     }

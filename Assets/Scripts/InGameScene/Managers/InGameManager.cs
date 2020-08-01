@@ -12,6 +12,7 @@ public class InGameManager : MonoBehaviour
     private GAME_STATE gameState_ = GAME_STATE.SET;
 
     public UIManager uiM;
+    public SoundManager soundM;
     public ServerManager serverM;
     public InputManager inputM;
     public EffectManager effectM;
@@ -47,6 +48,7 @@ public class InGameManager : MonoBehaviour
 
     public void Setting(int x, int y)
     {
+        soundM.PlaySound("place");
         data.settedPieces++;
         GameObject newPiece;
 

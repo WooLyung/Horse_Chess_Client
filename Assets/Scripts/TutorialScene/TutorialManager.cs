@@ -11,6 +11,9 @@ public class TutorialManager : MonoBehaviour
         NONE, WHITE, WINE, CANT, CAN
     }
 
+    public BGMManager bgmM;
+    public SoundManager soundM;
+
     public Animator sceneAnim;
     public Animator objectAnim;
     public Animator textAnim;
@@ -39,7 +42,7 @@ public class TutorialManager : MonoBehaviour
     private Vector2Int[] moveDir = { new Vector2Int(1, 2), new Vector2Int(1, -2), new Vector2Int(-1, 2), new Vector2Int(-1, -2),
         new Vector2Int(2, 1),new Vector2Int(2, -1), new Vector2Int(-2, 1), new Vector2Int(-2, -1) };
 
-    private void Start ()
+    private void Start()
     {
         StartCoroutine("FirstMessage");
 
@@ -92,6 +95,8 @@ public class TutorialManager : MonoBehaviour
 
     private void ClearPiece(int x, int y)
     {
+        soundM.PlaySound("place");
+
         if (y <= 4)
         {
             bool canClear = true;
@@ -169,6 +174,8 @@ public class TutorialManager : MonoBehaviour
             }
             else if (tiles[x, y] == TILE.CAN)
             {
+                soundM.PlaySound("place");
+
                 Vector2Int pos = new Vector2Int((int)playerPO[selectPiece].transform.localPosition.x, (int)playerPO[selectPiece].transform.localPosition.y);
 
                 GameObject newCantMove = GameObject.Instantiate(cantMove, cantMoveTile.transform);
@@ -313,6 +320,7 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(3.5f);
         sceneAnim.SetInteger("state", 1);
         objectAnim.SetInteger("state", 1);
+        bgmM.SetState(BGMManager.BGMSTATE.FINISH);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(2);
     }
