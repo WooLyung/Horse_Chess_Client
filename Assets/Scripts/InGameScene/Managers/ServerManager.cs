@@ -7,6 +7,7 @@ public class ServerManager : MonoBehaviour
 {
     private SocketIOComponent socket;
     public InGameManager ingameM;
+    public EmotionManager emotionM;
     public UIManager uiM;
     public InGameData data;
 
@@ -138,6 +139,6 @@ public class ServerManager : MonoBehaviour
 
     private void emotion(SocketIOEvent obj) // 상대방이 보낸 무르기 요청 받음
     {
-        Debug.Log(obj.ToString());
+        emotionM.YourEmotion(int.Parse(obj.data.GetField("").GetField("").ToString()));
     }
 }
