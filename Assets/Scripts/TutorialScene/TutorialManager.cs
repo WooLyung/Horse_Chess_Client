@@ -140,6 +140,8 @@ public class TutorialManager : MonoBehaviour
 
     private void DestroyCanMoveTile()
     {
+        soundM.PlaySound("cancel");
+
         selectPiece = -1;
         foreach (var value in canMoveTiles)
         {
@@ -181,6 +183,7 @@ public class TutorialManager : MonoBehaviour
                 }
 
                 DestroyCanMoveTile();
+                soundM.PlaySound("select");
 
                 GameObject newCanMove2 = GameObject.Instantiate(canMove, canMoveTile.transform);
                 newCanMove2.transform.localPosition = new Vector3(x, y);
@@ -289,6 +292,8 @@ public class TutorialManager : MonoBehaviour
         {
             if (tiles[x, y] == TILE.WHITE) // 선택한 타일이 플레이어가 있는 타일
             {
+                soundM.PlaySound("select");
+
                 GameObject newCanMove2 = GameObject.Instantiate(canMove, canMoveTile.transform);
                 newCanMove2.transform.localPosition = new Vector3(x, y);
                 canMoveTiles.Add(newCanMove2);

@@ -11,6 +11,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip lose;
     public AudioClip touch;
     public AudioClip place;
+    public AudioClip select;
+    public AudioClip cancel;
 
     public void PlaySound(string audioName)
     {
@@ -29,6 +31,10 @@ public class SoundManager : MonoBehaviour
         else if (audioName == "place")
         {
             audioSource.PlayOneShot(place, settingM.SoundEffect * settingM.MasterVolume);
+        }
+        else if (audioName == "select")
+        {
+            audioSource.PlayOneShot(select, settingM.SoundEffect * settingM.MasterVolume * 0.2f);
         }
     }
 }

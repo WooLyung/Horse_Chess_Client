@@ -3685,6 +3685,8 @@ MonoBehaviour:
   lose: {fileID: 8300000, guid: 4786633a202105a479fd360e4411bc9c, type: 3}
   touch: {fileID: 8300000, guid: b95ec823094ccf948b1ba921e30fb35f, type: 3}
   place: {fileID: 8300000, guid: 6098aa067c5d8a24e958c88d29767b1e, type: 3}
+  select: {fileID: 8300000, guid: 2496bebe5b2ccbe4ca4591b1ba4286a3, type: 3}
+  cancel: {fileID: 8300000, guid: a8314daf772275a48ac1ee609f007d61, type: 3}
 --- !u!1 &1005277711
 GameObject:
   m_ObjectHideFlags: 0

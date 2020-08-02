@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
 {
     public InGameManager ingameM;
     public EffectManager effectM;
+    public SoundManager soundM;
     public InGameData data;
     public GameObject CanMoveParent;
     public GameObject canMoveTile;
@@ -139,6 +140,8 @@ public class InputManager : MonoBehaviour
 
     private void DestroyCanTiles()
     {
+        soundM.PlaySound("cancel");
+
         foreach (var value in CanMoveParent.GetComponentsInChildren<Transform>())
         {
             if (value.gameObject != CanMoveParent)
@@ -168,6 +171,7 @@ public class InputManager : MonoBehaviour
     {
         if (mines.Count == 0) // 비어있는 것일 경우
         {
+            soundM.PlaySound("select");
             CreateSelectTileObject(x, y);
         }
 
