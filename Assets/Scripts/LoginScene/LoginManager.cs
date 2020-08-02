@@ -148,12 +148,14 @@ public class LoginManager : MonoBehaviour
             loginSceneManager.ChangeScene();
 
             JSONObject playerData = data.GetField("data").GetField("userData");
+
             string nickname = playerData.GetField("nickname").ToString();
             nickname = nickname.Substring(1, nickname.Length - 2);
             int rate = int.Parse(playerData.GetField("rate").ToString());
             int game = int.Parse(playerData.GetField("numOfPlayedGame").ToString());
             int winGame = int.Parse(playerData.GetField("numOfWonGame").ToString());
-            PlayerDataUpdate(nickname, rate, game, winGame);
+            int ranking = int.Parse(playerData.GetField("ranking").ToString());
+            PlayerDataUpdate(nickname, rate, game, winGame, ranking);
         }
         else
         {
@@ -185,12 +187,14 @@ public class LoginManager : MonoBehaviour
             loginSceneManager.ChangeScene();
 
             JSONObject playerData = data.GetField("data").GetField("userData");
+
             string nickname = playerData.GetField("nickname").ToString();
             nickname = nickname.Substring(1, nickname.Length - 2);
             int rate = int.Parse(playerData.GetField("rate").ToString());
             int game = int.Parse(playerData.GetField("numOfPlayedGame").ToString());
             int winGame = int.Parse(playerData.GetField("numOfWonGame").ToString());
-            PlayerDataUpdate(nickname, rate, game, winGame);
+            int ranking = int.Parse(playerData.GetField("ranking").ToString());
+            PlayerDataUpdate(nickname, rate, game, winGame, ranking);
 
             PlayerData.Instance.IsFirst = true;
         }
@@ -201,13 +205,14 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    private void PlayerDataUpdate(string nickname, int rate, int game, int winGame)
+    private void PlayerDataUpdate(string nickname, int rate, int game, int winGame, int ranking)
     {
         PlayerData playerData = PlayerData.Instance;
         playerData.Name = nickname;
         playerData.Rate = rate;
         playerData.Game = game;
         playerData.WinGame = winGame;
+        playerData.Ranking = ranking;
     }
 
     public void ShowKeyboard()
