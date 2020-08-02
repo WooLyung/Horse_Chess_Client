@@ -19,6 +19,13 @@ public class ServerManager : MonoBehaviour
         socket.On("proposeExtendTimeLimits", proposeExtendTimeLimits);
         socket.On("updateTimeLimits", updateTimeLimits);
         socket.On("proposeTurnBack", proposeTurnBack);
+        socket.On("emotion", emotion);
+    }
+
+    public void SendEmotion(int code)
+    {
+        JSONObject json = new JSONObject("{data:{number:" + code + "}}");
+        socket.Emit("emotionRequest", json);
     }
 
     public void PieceMove(int x1, int y1, int x2, int y2)
@@ -127,5 +134,10 @@ public class ServerManager : MonoBehaviour
         uiM.TakeBackHighlight();
         uiM.ShowText("상대방이 무르기를 요청했습니다");
         uiM.takeBack.text = "수락";
+    }
+
+    private void emotion(SocketIOEvent obj) // 상대방이 보낸 무르기 요청 받음
+    {
+        Debug.Log(obj.ToString());
     }
 }
