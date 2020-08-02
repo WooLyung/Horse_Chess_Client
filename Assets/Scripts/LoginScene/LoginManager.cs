@@ -228,5 +228,8 @@ public class LoginManager : MonoBehaviour
         JSONObject data = new JSONObject("{" + json + "}");
 
         socket.Emit("loginRequest", data);
+
+        yield return new WaitForSeconds(2);
+        StartCoroutine("AutoLogin");
     }
 }
